@@ -1,0 +1,18 @@
+/* assets/css/responsive.css */
+
+/* Mobile-first tweaks */
+@media (max-width: 768px) {
+  header { padding: 0.85rem 1rem; }
+  .container { margin: 0.75rem auto; }
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  #notice-list li { padding: 0.75rem; }
+  form { gap: 0.6rem; }
+  button, .btn { width: 100%; }
+}
+
+/* Larger screens enhancements */
+@media (min-width: 1024px) {
+  .container { max-width: 1100px; }
+}
