@@ -1,6 +1,6 @@
 <?php
 function sanitize($input) {
-    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8'); // Cleaning input. Prevents XSS and SQL injection
 }
 
 function is_logged_in(): bool {
