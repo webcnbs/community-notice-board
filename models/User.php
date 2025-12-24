@@ -32,12 +32,13 @@ class User {
         );
         $stmt->execute([$username, $email, $hash]);
 
-        // Option B (explicit defaults):
+        /* Option B (explicit defaults):
         // $stmt = $this->pdo->prepare(
         //     "INSERT INTO users (username, email, password, role, status)
         //      VALUES (?, ?, ?, 'resident', 'pending')"
         // );
-        // $stmt->execute([$username, $email, $hash]);
+         $stmt->execute([$username, $email, $hash]);
+         */
     }
 
     // ✅ Fetch all users (used in manage-users.php)
