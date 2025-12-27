@@ -11,35 +11,37 @@ require_once __DIR__ . '/includes/csrf.php';
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-  a:link, a:visited, a:hover, a:active {
-    color: #000000ff; /* Sets the link color to red (you can use any valid color value) */
-    text-decoration: none; /* Removes the underline from the link */
-  }
-</style>
-<meta charset="UTF-8"><title>Login</title><link rel="stylesheet" href="assets/css/style.css">
+
+<meta charset="UTF-8"><title>Login</title>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
-  <header>
-    <a href="index.php" class=""><h1>Community Notice Board</h1></a>
+<body class="login-bg">
+   <header class="LRheader">
+    <h1>Community Notice Board</h1>
     <nav>
-        <a href="register.php">Register</a>
+      <p>Without an account? <a href="register.php">Register</a></p>
     </nav>
   </header>
 
-
-
-  <h2 class="center">Login</h2>
-  <?php if (!empty($error)) echo '<p class="error">'.htmlspecialchars($error).'</p>'; ?>
-  <div class="container">
-    <form method="post" action="route.php?action=login">
-      <?php csrf_field(); ?>
-      <label>Email</label><input type="email" name="email" required>
-      <label>Password</label><input type="password" name="password" required>
-      <label><input type="checkbox" name="remember"> Remember me</label>
-      <button type="submit">Login</button>
-    </form>
+<div class="login-wrapper">
+    <div class="login-card">
+      <h2>Login</h2>
+      <?php if (!empty($error)) echo '<p class="error">'.htmlspecialchars($error).'</p>'; ?>
+      <form method="post" action="route.php?action=login">
+        <?php csrf_field(); ?>
+        <label>Email</label>
+        <input type="email" name="email" required placeholder="Enter your email">
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Enter your password">
+        <label class="remember">
+          <input class="Cbox" type="checkbox" name="remember"> Remember me</label>
+        <button type="submit">Login</button>
+        <div class="login-footer">
+          <a href="#">Forgot Password?</a><br>
+        </div>
+      </form>
+    </div>
   </div>
 </body>
 </html>

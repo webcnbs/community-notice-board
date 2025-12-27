@@ -15,19 +15,18 @@ require_once __DIR__ . '/includes/csrf.php';
   <title>Register</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-
-  <header>
+<body class="login-bg">
+  <header class="LRheader">
     <h1>Community Notice Board</h1>
     <nav>
-       <p>Already have an account?<a href="login.php">Login</a></p>
+      <p>Without an account? <a href="login.php">Login</a></p>
     </nav>
   </header>
 
-  <div class="container">
-      <h2 class="center">Register</h2>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h2>Register</h2>
 
-      <!-- ✅ Show error or success messages -->
       <?php if (!empty($error)): ?>
         <p class="error"><?php echo htmlspecialchars($error); ?></p>
       <?php endif; ?>
@@ -36,20 +35,21 @@ require_once __DIR__ . '/includes/csrf.php';
         <p class="success"><?php echo htmlspecialchars($message); ?></p>
       <?php endif; ?>
 
-      <form method="post" action="route.php?action=register" class="form-card">
+      <form method="post" action="route.php?action=register">
         <?php csrf_field(); ?>
 
         <label for="username">Username</label>
-        <input id="username" type="text" name="username" required>
+        <input id="username" type="text" name="username" required placeholder="Enter your username">
 
         <label for="email">Email</label>
-        <input id="email" type="email" name="email" required>
+        <input id="email" type="email" name="email" required placeholder="Enter your email">
 
         <label for="password">Password</label>
-        <input id="password" type="password" name="password" required minlength="8">
+        <input id="password" type="password" name="password" required minlength="8" placeholder="Create a password">
 
-        <button type="submit" class="btn primary">Register</button>
+        <button type="submit">Register</button>
       </form>
+    </div>
   </div>
 </body>
 </html>

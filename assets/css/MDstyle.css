@@ -1,0 +1,89 @@
+/* Base for Manager Dashboard */
+    .MDbody {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #f9f9f9, #eef2f7);
+      color: #333;
+    }
+
+    /* Header */
+   .MDheader {
+      background: #007bff !important;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .MDheader h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .MDnav .MDbtn {
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+    }
+
+    /* Welcome */
+    .MDh2 {
+      margin: 2rem;
+      font-weight: 600;
+      color: #222;
+    }
+    .MDinfo {
+      margin: 0 2rem;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    /* Dashboard Grid */
+    .MDdashboard-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .MDbtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.2rem;
+      background: #007bff !important;
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .MDbtn:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      background: #0056b3;
+    }
+    .MDbtn.danger {
+      background: #dc3545;
+    }
+
+    /* Animated hover icons */
+    .MDbtn span.icon {
+      font-size: 1.4rem;
+      transition: transform 0.3s ease;
+    }
+    .MDbtn:hover span.icon {
+      transform: rotate(10deg) scale(1.2);
+    }
+
+    /* Footer */
+    .MDfooter {
+      text-align: center;
+      padding: 1rem;
+      background: #f1f3f6;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }

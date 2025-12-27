@@ -8,18 +8,18 @@ class Comment {
     }
 
     // Create a new comment (defaults to pending)
-    public function create(int $noticeId, int $userId, string $content) {
+    public function create(int $noticeId, int $userId, string $content, ?string $imagePath = null) {
         $stmt = $this->pdo->prepare(
-            "INSERT INTO comments (notice_id, user_id, content, status) 
-             VALUES (?, ?, ?, 'pending')"
+            "INSERT INTO comments (notice_id, user_id, content, image_path, status, created_at) 
+             VALUES (?, ?, ?, ?, 'pending', NOW())"
         );
-        $stmt->execute([$noticeId, $userId, $content]);
+        $stmt->execute([$noticeId, $userId, $content, $imagePath]);
     }
 
     // List approved comments for a notice
     public function listApproved(int $noticeId) {
         $stmt = $this->pdo->prepare(
-            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, 
+            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, c.image_path,
                     c.status, c.created_at, u.username
              FROM comments c
              JOIN users u ON c.user_id = u.user_id
@@ -39,16 +39,16 @@ class Comment {
     }
 
     public function allPending() {
-    $stmt = $this->pdo->prepare(
-        "SELECT c.comment_id, c.notice_id, c.user_id, c.content, c.created_at,
-                u.username, n.title AS notice_title
+        $stmt = $this->pdo->prepare(
+            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, c.image_path, c.created_at,
+                    u.username, n.title AS notice_title
          FROM comments c
          JOIN users u ON c.user_id = u.user_id
          JOIN notices n ON c.notice_id = n.notice_id
          WHERE c.status = 'pending'
          ORDER BY c.created_at DESC"
-    );
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        );
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

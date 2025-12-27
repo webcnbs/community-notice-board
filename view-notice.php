@@ -70,6 +70,11 @@ $comments = $commentModel->listApproved($id);
                 <div class="comment">
                     <strong><?= htmlspecialchars($c['username']); ?>:</strong>
                     <?= nl2br(htmlspecialchars($c['content'])); ?>
+                    <?php if (!empty($c['image_path'])): ?>
+                        <div>
+                            <img src="<?= htmlspecialchars($c['image_path']); ?>" alt="Comment image" style="max-width:200px;">
+                        </div>
+                    <?php endif; ?>
                     <small>(<?= htmlspecialchars($c['created_at']); ?>)</small>
                 </div>
             <?php endforeach; ?>
@@ -79,9 +84,10 @@ $comments = $commentModel->listApproved($id);
     </div>
 
     <?php if (is_logged_in()): ?>
-        <form method="post" action="controllers/CommentController.php">
+        <form method="post" action="controllers/CommentController.php" enctype="multipart/form-data">
             <input type="hidden" name="notice_id" value="<?= $id ?>">
             <textarea name="content" required></textarea>
+            <input type="file" name="image" accept="image/*">
             <button type="submit" name="action" value="add">Add Comment</button>
         </form>
     <?php else: ?>
