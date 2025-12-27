@@ -67,6 +67,6 @@ if ($role === 'admin') {
 }
 ?>
 <p class="mt-2">
-  <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back to Dashboard</a>
+  <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back</a>
 </p></body>
 </html>
