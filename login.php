@@ -31,7 +31,7 @@ require_once __DIR__ . '/includes/csrf.php';
 
 
   <h2 class="center">Login</h2>
-  <?php if (!empty($error)) echo '<p class="error">'.htmlspecialchars($error).'</p>'; ?>
+  <?php if (!empty($error)) echo '<p class="error">'.htmlspecialchars($error).'</p>'; ?> <!-- htmlsepcialchars prevents XSS -->
   <div class="container">
     <form method="post" action="route.php?action=login">
       <?php csrf_field(); ?>
