@@ -7,7 +7,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
 class AdminController {
     public function dashboard() {
-        session_name(SESSION_NAME); session_start();
+       // session_name(SESSION_NAME); session_start();
         require_role(['admin']);
         $userModel = new User();
         $categoryModel = new Category();
@@ -20,14 +20,20 @@ class AdminController {
     }
 
     public function manageUsers() {
-        session_name(SESSION_NAME); session_start();
+        //session_name(SESSION_NAME); session_start();
         require_role(['admin']);
         $userModel = new User();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $action = $_POST['action'] ?? '';
             $id = (int)$_POST['user_id'];
-            if ($action === 'approve') $userModel->approve($id);
-            if ($action === 'disable') $userModel->disable($id);
+
+       //$pdo = Database::getInstance()->pdo();
+
+        if ($action === 'approve') { // Approve/disable fix
+        $userModel->updateStatus($id, 'active');
+        } elseif ($action === 'disable') {
+        $userModel->updateStatus($id, 'disabled');
+        }
         }
         // fetch all users for display
         $pdo = Database::getInstance()->pdo();

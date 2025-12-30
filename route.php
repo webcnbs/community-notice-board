@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/session.php';
+require_once __DIR__ . '/controllers/AdminController.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_name(SESSION_NAME);
@@ -28,6 +29,15 @@ switch ($action) {
     case 'view-notice':
         (new NoticeController())->view();
         break;
+
+        case 'admin-dashboard':
+        (new AdminController())->dashboard();
+        break;
+
+    case 'manage-users':
+        (new AdminController())->manageUsers();
+        break;
+        
     default:
         http_response_code(404);
         echo "Unknown action.";

@@ -19,7 +19,7 @@ class Comment {
     // List approved comments for a notice
     public function listApproved(int $noticeId) {
         $stmt = $this->pdo->prepare(
-            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, -- c.image_path, -- Removed this for error 21
+            "SELECT c.comment_id, c.notice_id, c.user_id, c.content,
                     c.status, c.created_at, u.username
              FROM comments c
              JOIN users u ON c.user_id = u.user_id

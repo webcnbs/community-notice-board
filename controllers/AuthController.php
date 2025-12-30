@@ -32,14 +32,15 @@ class AuthController {
                     setcookie(REMEMBER_COOKIE, $token, time() + REMEMBER_LIFETIME, '/', '', false, true);
                 }
 
-// ✅ Redirect based on role
-if ($user['role'] === 'admin') {
-    header('Location: admin/dashboard.php'); exit;
-} elseif ($user['role'] === 'manager') {
-    header('Location: index2.php'); exit; // manager dashboard
-} else {
-    header('Location: index.php'); exit; // resident home
-}
+            // ✅ Redirect based on role via route.php
+            if ($user['role'] === 'admin') {
+            header('Location: route.php?action=admin-dashboard'); exit;
+            } elseif ($user['role'] === 'manager') {
+            header('Location: route.php?action=manage-notices'); exit; // Assuming managers manage notices
+            } else {
+            header('Location: index.php'); exit; // Or route.php?action=home if you have one
+            }
+
             }
 
             $error = 'Invalid credentials or inactive account';
@@ -58,9 +59,16 @@ if ($user['role'] === 'admin') {
 
             $userModel = new User();
 
-            // ✅ Check for duplicate email
+            // Check for duplicate email
             if ($userModel->exists($email)) {
                 $error = "Email already registered.";
+                include __DIR__ . '/../register.php';
+                return;
+            }
+
+            // Check for duplicate username 
+            if ($userModel->usernameExists($username)) {
+                $error = "Username already taken. Please choose another.";
                 include __DIR__ . '/../register.php';
                 return;
             }
@@ -78,6 +86,6 @@ if ($user['role'] === 'admin') {
     public function logout() {
         setcookie(REMEMBER_COOKIE, '', time() - 3600, '/');
         session_destroy();
-        header('Location: login.php'); exit;
+        header('Location: route.php?action=login'); exit;
     }
 }
