@@ -23,6 +23,13 @@ class User {
         return $stmt->fetchColumn() > 0;
     }
 
+// ✅ Check if username already exists (used in registration)
+    public function usernameExists(string $username): bool {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetchColumn() > 0;
+    }
+
     // ✅ Create a new user (used in registration)
     public function create(string $username, string $email, string $password) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
