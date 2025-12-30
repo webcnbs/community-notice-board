@@ -13,7 +13,7 @@ require_once __DIR__ . '/includes/csrf.php';
 <head>
   <meta charset="UTF-8">
   <title>Register</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css"> 
 </head>
 <body class="login-bg">
   <header class="LRheader">
