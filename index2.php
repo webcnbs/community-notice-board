@@ -81,7 +81,8 @@ require_role(['manager']);
         MDbtn.style.opacity = 1;
         MDbtn.style.transform = 'translateY(0)';
       }, i * 150); // Delay increases with index (creates cascading effect)
-    });
+    });  
+    // pmpofg
 
     // --- Dark Mode Toggle ---
     document.addEventListener("DOMContentLoaded", function() {
