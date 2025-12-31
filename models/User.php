@@ -23,9 +23,17 @@ class User {
         return $stmt->fetchColumn() > 0;
     }
 
+    // ✅ Check if username already exists (used in registration)
+    public function usernameExists(string $username): bool {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetchColumn() > 0;
+    }
+
     // ✅ Create a new user (used in registration)
     public function create(string $username, string $email, string $password) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
+
         // Option A: let DB default role='resident' and status='pending'
         $stmt = $this->pdo->prepare(
             "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
@@ -56,5 +64,15 @@ class User {
     public function updateRole(int $userId, string $role) {
         $stmt = $this->pdo->prepare("UPDATE users SET role = ? WHERE user_id = ?");
         $stmt->execute([$role, $userId]);
+    }
+
+    // ✅ Approve user (helper for AdminController)
+    public function approve(int $userId) {
+        $this->updateStatus($userId, 'active');
+    }
+
+    // ✅ Disable user (helper for AdminController)
+    public function disable(int $userId) {
+        $this->updateStatus($userId, 'disabled');
     }
 }

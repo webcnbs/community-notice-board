@@ -31,14 +31,14 @@ class AuthController {
                     setcookie(REMEMBER_COOKIE, $token, time() + REMEMBER_LIFETIME, '/', '', false, true);
                 }
 
-// ✅ Redirect based on role
-if ($user['role'] === 'admin') {
-    header('Location: admin/dashboard.php'); exit;
-} elseif ($user['role'] === 'manager') {
-    header('Location: index2.php'); exit; // manager dashboard
-} else {
-    header('Location: index.php'); exit; // resident home
-}
+                // ✅ Redirect based on role
+                if ($user['role'] === 'admin') {
+                    header('Location: admin/dashboard.php'); exit;
+                } elseif ($user['role'] === 'manager') {
+                    header('Location: index2.php'); exit; // manager dashboard
+                } else {
+                    header('Location: index.php'); exit; // resident home
+                }
             }
 
             $error = 'Invalid credentials or inactive account';
@@ -56,6 +56,13 @@ if ($user['role'] === 'admin') {
             $password = $_POST['password'] ?? '';
 
             $userModel = new User();
+
+            // ✅ Check for duplicate username
+            if ($userModel->usernameExists($username)) {
+                $error = "Username already taken.";
+                include __DIR__ . '/../register.php';
+                return;
+            }
 
             // ✅ Check for duplicate email
             if ($userModel->exists($email)) {
