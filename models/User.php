@@ -23,11 +23,8 @@ class User {
         return $stmt->fetchColumn() > 0;
     }
 
-<<<<<<< HEAD
-    // ✅ Check if username already exists (used in registration)
-=======
+
 // ✅ Check if username already exists (used in registration)
->>>>>>> 18db7cd3b5172b2998605cc5e5c2c062cb6bfaf2
     public function usernameExists(string $username): bool {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
         $stmt->execute([$username]);
