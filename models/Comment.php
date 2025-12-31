@@ -10,7 +10,7 @@ class Comment {
     // Create a new comment (defaults to pending)
     public function create(int $noticeId, int $userId, string $content, ?string $imagePath = null) {
         $stmt = $this->pdo->prepare(
-            "INSERT INTO comments (notice_id, user_id, content, image_path, status, created_at) 
+            "INSERT INTO comments (notice_id, user_id, content, status, created_at) 
              VALUES (?, ?, ?, ?, 'pending', NOW())"
         );
         $stmt->execute([$noticeId, $userId, $content, $imagePath]);
@@ -19,7 +19,7 @@ class Comment {
     // List approved comments for a notice
     public function listApproved(int $noticeId) {
         $stmt = $this->pdo->prepare(
-            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, c.image_path,
+            "SELECT c.comment_id, c.notice_id, c.user_id, c.content,
                     c.status, c.created_at, u.username
              FROM comments c
              JOIN users u ON c.user_id = u.user_id
@@ -40,7 +40,7 @@ class Comment {
 
     public function allPending() {
         $stmt = $this->pdo->prepare(
-            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, c.image_path, c.created_at,
+            "SELECT c.comment_id, c.notice_id, c.user_id, c.content, c.created_at,
                     u.username, n.title AS notice_title
          FROM comments c
          JOIN users u ON c.user_id = u.user_id

@@ -1,3 +1,4 @@
+<!-- Omar -->
 <?php
 require_once __DIR__ . '/includes/config.php';
 
@@ -27,7 +28,7 @@ require_once __DIR__ . '/includes/csrf.php';
 <div class="login-wrapper">
     <div class="login-card">
       <h2>Login</h2>
-      <?php if (!empty($error)) echo '<p class="error">'.htmlspecialchars($error).'</p>'; ?>
+      <?php if (!empty($error)) echo '<p class="error">'.htmlspecialchars($error).'</p>'; ?> <!-- Prevents XSS -->
       <form method="post" action="route.php?action=login">
         <?php csrf_field(); ?>
         <label>Email</label>

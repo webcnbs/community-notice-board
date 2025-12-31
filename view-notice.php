@@ -70,11 +70,13 @@ $comments = $commentModel->listApproved($id);
                 <div class="comment">
                     <strong><?= htmlspecialchars($c['username']); ?>:</strong>
                     <?= nl2br(htmlspecialchars($c['content'])); ?>
-                    <?php if (!empty($c['image_path'])): ?>
+                    <!--
+                     <?php if (!empty($c['image_path'])): ?>
                         <div>
                             <img src="<?= htmlspecialchars($c['image_path']); ?>" alt="Comment image" style="max-width:200px;">
                         </div>
-                    <?php endif; ?>
+                    <?php endif; ?> 
+                    -->
                     <small>(<?= htmlspecialchars($c['created_at']); ?>)</small>
                 </div>
             <?php endforeach; ?>

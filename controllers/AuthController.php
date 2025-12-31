@@ -1,3 +1,4 @@
+<!-- Omar -->
 <?php
 // controllers/AuthController.php
 require_once __DIR__ . '/../includes/session.php';
@@ -31,6 +32,7 @@ class AuthController {
                     setcookie(REMEMBER_COOKIE, $token, time() + REMEMBER_LIFETIME, '/', '', false, true);
                 }
 
+<<<<<<< HEAD
                 // ✅ Redirect based on role
                 if ($user['role'] === 'admin') {
                     header('Location: admin/dashboard.php'); exit;
@@ -39,6 +41,17 @@ class AuthController {
                 } else {
                     header('Location: index.php'); exit; // resident home
                 }
+=======
+            // ✅ Redirect based on role via route.php
+            if ($user['role'] === 'admin') {
+            header('Location: route.php?action=admin-dashboard'); exit;
+            } elseif ($user['role'] === 'manager') {
+            header('Location: route.php?action=manage-notices'); exit; // Assuming managers manage notices
+            } else {
+            header('Location: index.php'); exit; // Or route.php?action=home if you have one
+            }
+
+>>>>>>> 18db7cd3b5172b2998605cc5e5c2c062cb6bfaf2
             }
 
             $error = 'Invalid credentials or inactive account';
@@ -57,6 +70,7 @@ class AuthController {
 
             $userModel = new User();
 
+<<<<<<< HEAD
             // ✅ Check for duplicate username
             if ($userModel->usernameExists($username)) {
                 $error = "Username already taken.";
@@ -65,8 +79,18 @@ class AuthController {
             }
 
             // ✅ Check for duplicate email
+=======
+            // Check for duplicate email
+>>>>>>> 18db7cd3b5172b2998605cc5e5c2c062cb6bfaf2
             if ($userModel->exists($email)) {
                 $error = "Email already registered.";
+                include __DIR__ . '/../register.php';
+                return;
+            }
+
+            // Check for duplicate username 
+            if ($userModel->usernameExists($username)) {
+                $error = "Username already taken. Please choose another.";
                 include __DIR__ . '/../register.php';
                 return;
             }
@@ -84,6 +108,6 @@ class AuthController {
     public function logout() {
         setcookie(REMEMBER_COOKIE, '', time() - 3600, '/');
         session_destroy();
-        header('Location: login.php'); exit;
+        header('Location: route.php?action=login'); exit;
     }
 }
