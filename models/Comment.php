@@ -11,7 +11,7 @@ class Comment {
     public function create(int $noticeId, int $userId, string $content, ?string $imagePath = null) {
         $stmt = $this->pdo->prepare(
             "INSERT INTO comments (notice_id, user_id, content, status, created_at) 
-             VALUES (?, ?, ?, ?, 'pending', NOW())"
+             VALUES (?, ?, ?, ?)" //extra columns fix
         );
         $stmt->execute([$noticeId, $userId, $content, $imagePath]);
     }

@@ -5,8 +5,8 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../models/Comment.php';
 
-session_name(SESSION_NAME);
-session_start();
+//session_name(SESSION_NAME);
+//session_start();
 
 $commentModel = new Comment();
 
