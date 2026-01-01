@@ -22,7 +22,7 @@ $logs = $auditLogModel->recent(10); // fetch last 10 logs
 <head>
   <meta charset="UTF-8">
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <h2>Admin Dashboard</h2>
@@ -40,15 +40,20 @@ $logs = $auditLogModel->recent(10); // fetch last 10 logs
       <?php endforeach; ?>
     </ul>
   </section>
-<nav>
-  <a href="manage-users.php">Manage Users</a>
-  <a href="manage-categories.php">Manage Categories</a>
-  <a href="manage-notices.php">Manage Notices</a>
-  <a href="manage-comments.php">Manage Comments</a> <!-- ✅ Add this -->
-  <a href="../user/profile.php">My Profile</a>
-  <a href="../user/my-notices.php">My Notices</a>
-  <a href="../user/bookmarks.php">Bookmarks</a>
-  <a href="../route.php?action=logout" class="btn danger">Logout</a>
+<nav class="admin-nav">
+  <a href="route.php?action=manage-users">Manage Users</a>
+  
+  <a href="admin/manage-categories.php">Manage Categories</a> 
+  
+  <a href="route.php?action=manage-notices">Manage Notices</a>
+  
+  <a href="admin/manage-comments.php">Manage Comments</a>
+  
+  <hr>
+  
+  <a href="user/profile.php">My Profile</a>
+  <a href="index.php">View Public Site</a>
+  <a href="route.php?action=logout" class="btn danger">Logout</a>
 </nav>
 </body>
 </html>
