@@ -40,7 +40,7 @@ switch ($action) {
         break;
 
         case 'index2':
-       include __DIR__ . 'index2.php'; //index2 manager page fix
+       include __DIR__ . '/index2.php'; //index2 manager page fix
        break;
         
     default:
