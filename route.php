@@ -3,6 +3,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/session.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 
+
 if (session_status() === PHP_SESSION_NONE) {
     session_name(SESSION_NAME);
     session_start();
@@ -39,8 +40,7 @@ switch ($action) {
         break;
 
         case 'index2':
-       // If you don't have a controller, just include the dashboard file directly
-       include __DIR__ . '/index2.php'; 
+       include __DIR__ . 'index2.php'; //index2 manager page fix
        break;
         
     default:
