@@ -14,7 +14,7 @@ function user_role(): string {
 
 function require_role(array $roles) {
     if (!is_logged_in() || !in_array(user_role(), $roles, true)) {
-        header('Location: login.php');
+        header('Location: route.php?action=login');
         exit;
     }
 }

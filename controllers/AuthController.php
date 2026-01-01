@@ -38,7 +38,7 @@ class AuthController {
             if ($user['role'] === 'admin') {
             header('Location: route.php?action=admin-dashboard'); exit;
             } elseif ($user['role'] === 'manager') {
-            header('Location: route.php?action=manage-notices'); exit; // Assuming managers manage notices
+            header('Location: route.php?action=index2'); exit; // Assuming managers manage notices
             } else {
             header('Location: index.php'); exit; // Or route.php?action=home if you have one
             }
