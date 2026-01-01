@@ -23,7 +23,7 @@ $notices = $noticeModel->all();
 <head>
   <meta charset="UTF-8">
   <title>Manage Notices</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css"> <!-- Front end fix -->
 </head>
 <body>
   <h2>Manage Notices</h2>

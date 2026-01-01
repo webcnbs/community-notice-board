@@ -39,6 +39,7 @@ CREATE TABLE comments (
   notice_id INT NOT NULL,
   user_id INT NOT NULL,
   content TEXT NOT NULL,
+  image_path VARCHAR(255) DEFAULT NULL, 
   status ENUM('pending','approved','rejected') DEFAULT 'pending',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (notice_id) REFERENCES notices(notice_id),
