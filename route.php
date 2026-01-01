@@ -37,6 +37,11 @@ switch ($action) {
     case 'manage-users':
         (new AdminController())->manageUsers();
         break;
+
+        case 'index2':
+       // If you don't have a controller, just include the dashboard file directly
+       include __DIR__ . '/index2.php'; 
+       break;
         
     default:
         http_response_code(404);

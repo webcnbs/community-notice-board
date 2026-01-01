@@ -83,17 +83,18 @@ $notices = $noticeModel->all();
 
   <!-- ✅ Back button at the bottom -->
 <?php
-$role = $_SESSION['user']['role'] ?? '';
-if ($role === 'admin') {
-    $dashboardUrl = 'dashboard.php'; // ✅ corrected path
-} elseif ($role === 'manager') {
-    $dashboardUrl = '../index2.php';
-} else {
-    $dashboardUrl = '../index.php';
-}
-?>
-<p class="mt-2">
-  <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back </a>
-</p>
+  $role = $_SESSION['user']['role'] ?? '';
+  if ($role === 'admin') {
+      $dashboardUrl = '../route.php?action=admin-dashboard'; 
+  } elseif ($role === 'manager') {
+      $dashboardUrl = '../route.php?action=index2'; 
+  } else {
+      $dashboardUrl = '../index.php';
+  }
+  ?>
+
+  <p class="mt-2">
+    <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back</a>
+  </p>
 </body>
 </html>
