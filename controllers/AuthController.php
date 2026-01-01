@@ -3,6 +3,7 @@
 // controllers/AuthController.php
 require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/AuditLog.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/csrf.php';
 
@@ -23,6 +24,9 @@ class AuthController {
                     'username'  => $user['username'],
                     'role'      => $user['role']
                 ];
+
+                // ✅ Record Login Action
+                (new AuditLog())->record($user['user_id'], 'Login', 'User logged into the system');
 
                 if ($remember) {
                     $token = bin2hex(random_bytes(32));
@@ -79,6 +83,9 @@ class AuthController {
             // Create new user (default status = pending)
             $userModel->create($username, $email, $password);
 
+            // ✅ Record Registration Action (User ID might be null or fetched if needed)
+            (new AuditLog())->record(null, 'Registration', "New user registered: $username ($email)");
+
             $message = 'Registration submitted. Await manager/admin approval.';
             include __DIR__ . '/../login.php';
         } else {
@@ -87,6 +94,10 @@ class AuthController {
     }
 
     public function logout() {
+        if (isset($_SESSION['user']['user_id'])) {
+            // ✅ Record Logout Action before destroying session
+            (new AuditLog())->record($_SESSION['user']['user_id'], 'Logout', 'User logged out');
+        }
         setcookie(REMEMBER_COOKIE, '', time() - 3600, '/');
         session_destroy();
         header('Location: route.php?action=login'); exit;

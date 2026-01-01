@@ -1,6 +1,7 @@
 <?php
 // controllers/NoticeController.php
 require_once __DIR__ . '/../models/Notice.php';
+require_once __DIR__ . '/../models/AuditLog.php'; // ✅ Added this
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/csrf.php';
 
@@ -8,6 +9,7 @@ class NoticeController {
     public function manage() {
         require_role(['manager','admin']);
         $noticeModel = new Notice();
+        $auditLog = new AuditLog(); // ✅ Initialize logger
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!csrf_verify($_POST['csrf'] ?? '')) die('Invalid CSRF');
@@ -23,6 +25,8 @@ class NoticeController {
                     ':expiry_date' => $_POST['expiry_date'] ?: null,
                 ];
                 $noticeModel->create($data);
+                // ✅ Record Notice Creation
+                $auditLog->record($_SESSION['user']['user_id'], 'Create Notice', "Title: " . $_POST['title']);
 
                 // ✅ Redirect with success flag
                 header('Location: admin/manage-notices.php?created=1');
@@ -38,16 +42,27 @@ class NoticeController {
                 ];
                 $noticeModel->update($id, $data);
 
+                // ✅ Record Notice Update
+                $auditLog->record($_SESSION['user']['user_id'], 'Update Notice', "ID: $id - Title: " . $_POST['title']);
+
                 // ✅ Redirect with update flag
                 header('Location: admin/manage-notices.php?updated=1');
-                exit;
-            } elseif ($action === 'delete') {
-                $noticeModel->delete((int)$_POST['notice_id']);
 
-                // ✅ Redirect with delete flag
+                exit;
+
+                } elseif ($action === 'delete') {
+                // 1. Define the ID first
+                $id = (int)$_POST['notice_id']; 
+    
+                // 2. Perform the deletion
+                $noticeModel->delete($id);
+    
+                // 3. Record the log (Now $id is defined!)
+                $auditLog->record($_SESSION['user']['user_id'], 'Delete Notice', "Deleted Notice ID: $id");
+
                 header('Location: admin/manage-notices.php?deleted=1');
                 exit;
-            }
+}
         }
 
         // Default: show manage-notices page
