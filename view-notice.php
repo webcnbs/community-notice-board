@@ -71,11 +71,13 @@ $comments = $commentModel->listApproved($id);
                     <strong><?= htmlspecialchars($c['username']); ?>:</strong>
                     <?= nl2br(htmlspecialchars($c['content'])); ?>
                     
-                     <?php if (!empty($c['image_path'])): ?>
-                        <div>
-                            <img src="<?= htmlspecialchars($c['image_path']); ?>" alt="Comment image" style="max-width:200px;">
-                        </div>
-                    <?php endif; ?> 
+                    <?php if (!empty($c['image_path'])): ?>
+                    <div class="comment-image">
+                    <img src="<?= BASE_URL . '/' . htmlspecialchars($c['image_path']); ?>" 
+                    alt="Comment image" 
+                    style="max-width:300px; border-radius: 5px; margin: 10px 0; display: block;">
+                    </div>
+                    <?php endif; ?>
                     
                     <small>(<?= htmlspecialchars($c['created_at']); ?>)</small>
                 </div>
