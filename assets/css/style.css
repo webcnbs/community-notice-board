@@ -378,3 +378,33 @@ button.danger { background: var(--danger); }
       font-size: 0.9rem;
       margin-top: 2rem;
     }
+
+    /* Priority Colors */
+.priority-high { color: #dc2626; font-weight: bold; }   /* Red */
+.priority-medium { color: #d97706; font-weight: bold; } /* Orange */
+.priority-low { color: #16a34a; font-weight: bold; }    /* Green */
+
+/* Notice List Styling */
+.notice-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    list-style: none;
+}
+
+.notice-title {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.notice-title:hover {
+    text-decoration: underline;
+}
+
+.notice-meta {
+    color: #666;
+}
