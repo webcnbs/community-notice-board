@@ -5,12 +5,9 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../models/Category.php';
 
-// Restrict access to admins and managers
 require_role(['admin','manager']);
-
 $categoryModel = new Category();
 
-// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
         $categoryModel->delete((int)$_POST['category_id']);
@@ -21,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $categoryModel->create($name, $description, $color);
     }
 }
-
-// Fetch categories for display
 $categories = $categoryModel->all();
 ?>
 <!DOCTYPE html>
@@ -30,12 +25,12 @@ $categories = $categoryModel->all();
 <head>
   <meta charset="UTF-8">
   <title>Manage Categories</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 </head>
 <body>
   <h2>Manage Categories</h2>
 
-  <form method="post">
+  <form method="post" action="<?= BASE_URL ?>/admin/manage-categories.php">
     <label>Name</label><input type="text" name="name" required>
     <label>Description</label><input type="text" name="description">
     <label>Color</label><input type="color" name="color_code" value="#888888">
@@ -45,8 +40,8 @@ $categories = $categoryModel->all();
   <ul>
     <?php foreach ($categories as $c): ?>
       <li style="color:<?php echo htmlspecialchars($c['color_code']); ?>">
-        <?php echo htmlspecialchars($c['name']); ?> - <?php echo htmlspecialchars($c['description']); ?>
-        <form method="post" style="display:inline;">
+        <?php echo htmlspecialchars($c['name']); ?>
+        <form method="post" style="display:inline;" action="<?= BASE_URL ?>/admin/manage-categories.php">
           <input type="hidden" name="category_id" value="<?php echo $c['category_id']; ?>">
           <button name="action" value="delete" class="danger">Delete</button>
         </form>
@@ -56,17 +51,17 @@ $categories = $categoryModel->all();
 
 <?php
 $role = $_SESSION['user']['role'] ?? '';
+// ✅ CHANGE: Used BASE_URL for Dashboard redirect
 if ($role === 'admin') {
-    $dashboardUrl = 'dashboard.php';
+    $dashboardUrl = BASE_URL . '/admin/dashboard.php';
 } elseif ($role === 'manager') {
-    $dashboardUrl = '../index2.php';
+    $dashboardUrl = BASE_URL . '/index2.php';
 } else {
-    $dashboardUrl = '../index.php';
+    $dashboardUrl = BASE_URL . '/index.php';
 }
 ?>
 <p class="mt-2">
   <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back to Dashboard</a>
 </p>
-
 </body>
 </html>

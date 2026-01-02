@@ -7,14 +7,11 @@ require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../models/Category.php';
 require_once __DIR__ . '/../models/Notice.php';
 
-// Restrict access to managers and admins
 require_role(['manager','admin']);
 
-// Fetch categories for the dropdown
 $categoryModel = new Category();
 $categories = $categoryModel->all();
 
-// Fetch existing notices
 $noticeModel = new Notice();
 $notices = $noticeModel->all();
 ?>
@@ -23,24 +20,17 @@ $notices = $noticeModel->all();
 <head>
   <meta charset="UTF-8">
   <title>Manage Notices</title>
-  <link rel="stylesheet" href="../assets/css/MDstyle.css">
-  <link rel="stylesheet" href="../assets/css/style.css"> <!-- Front end fix -->
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/MDstyle.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"> 
 </head>
 <body>
   <h2>Manage Notices</h2>
 
-  <!-- ✅ Success messages -->
   <?php if (isset($_GET['created'])): ?>
     <p class="success">Notice created successfully!</p>
   <?php endif; ?>
-  <?php if (isset($_GET['updated'])): ?>
-    <p class="success">Notice updated successfully!</p>
-  <?php endif; ?>
-  <?php if (isset($_GET['deleted'])): ?>
-    <p class="success">Notice deleted successfully!</p>
-  <?php endif; ?>
 
-  <form method="post" action="../route.php?action=manage-notices">
+  <form method="post" action="<?= BASE_URL ?>/route.php?action=manage-notices">
     <?php csrf_field(); ?>
     <input type="hidden" name="action" value="create">
     <label>Title</label><input name="title" required>
@@ -70,9 +60,9 @@ $notices = $noticeModel->all();
       <div class="admin-item">
         <span>
           <?php echo htmlspecialchars($n['title']); ?>
-          (<?php echo htmlspecialchars($n['category_name'] ?? 'Uncategorized'); ?> • <?php echo htmlspecialchars($n['priority']); ?>)
+          (<?php echo htmlspecialchars($n['category_name'] ?? 'Uncategorized'); ?>)
         </span>
-        <form method="post" action="../route.php?action=manage-notices">
+        <form method="post" action="<?= BASE_URL ?>/route.php?action=manage-notices"> 
           <?php csrf_field(); ?>
           <input type="hidden" name="action" value="delete">
           <input type="hidden" name="notice_id" value="<?php echo $n['notice_id']; ?>">
@@ -82,17 +72,17 @@ $notices = $noticeModel->all();
     <?php endforeach; ?>
   </div>
 
-  <!-- ✅ Back button at the bottom -->
 <?php
   $role = $_SESSION['user']['role'] ?? '';
+  // ✅ CHANGE: Used BASE_URL for all dashboard links
   if ($role === 'admin') {
-      $dashboardUrl = '../route.php?action=admin-dashboard'; 
+      $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard'; 
   } elseif ($role === 'manager') {
-      $dashboardUrl = '../route.php?action=index2'; 
+      $dashboardUrl = BASE_URL . '/index2.php'; 
   } else {
-      $dashboardUrl = '../index.php';
+      $dashboardUrl = BASE_URL . '/index.php';
   }
-  ?>
+?>
 
   <p class="mt-2">
     <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back</a>
