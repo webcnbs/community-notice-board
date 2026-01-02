@@ -1,4 +1,3 @@
-<!--Ian Wong -->
 <?php
 require_once __DIR__ . '/../models/Notice.php';
 header('Content-Type: application/json');

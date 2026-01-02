@@ -29,8 +29,7 @@ class NoticeController {
                 $auditLog->record($_SESSION['user']['user_id'], 'Create Notice', "Title: " . $_POST['title']);
 
                 // ✅ Redirect with success flag
-                header('Location: admin/manage-notices.php?created=1');
-                exit;
+                header('Location: route.php?action=manage-notices&created=1');                exit;
             } elseif ($action === 'update') {
                 $id = (int)$_POST['notice_id'];
                 $data = [
@@ -46,8 +45,7 @@ class NoticeController {
                 $auditLog->record($_SESSION['user']['user_id'], 'Update Notice', "ID: $id - Title: " . $_POST['title']);
 
                 // ✅ Redirect with update flag
-                header('Location: admin/manage-notices.php?updated=1');
-
+                header('Location: route.php?action=manage-notices&updated=1');
                 exit;
 
                 } elseif ($action === 'delete') {
@@ -60,9 +58,8 @@ class NoticeController {
                 // 3. Record the log (Now $id is defined!)
                 $auditLog->record($_SESSION['user']['user_id'], 'Delete Notice', "Deleted Notice ID: $id");
 
-                header('Location: admin/manage-notices.php?deleted=1');
-                exit;
-}
+                header('Location: route.php?action=manage-notices&deleted=1');                exit;
+            }
         }
 
         // Default: show manage-notices page
@@ -72,10 +69,35 @@ class NoticeController {
     }
 
     public function view() {
-        $id = (int)($_GET['id'] ?? 0);
-        $noticeModel = new Notice();
-        $notice = $noticeModel->find($id);
-        if ($notice) $noticeModel->incrementViews($id);
-        include __DIR__ . '/../view-notice.php';
+    $id = (int)($_GET['id'] ?? 0);
+    
+    // 1. Load the Models
+    require_once __DIR__ . '/../models/Notice.php';
+    require_once __DIR__ . '/../models/Bookmark.php';
+    require_once __DIR__ . '/../models/Comment.php';
+    require_once __DIR__ . '/../includes/functions.php'; // Defines is_logged_in()
+
+    $noticeModel = new Notice();
+    $bookmarkModel = new Bookmark();
+    $commentModel = new Comment();
+
+    // 2. Get the Data
+    $data = $noticeModel->find($id); // This matches your find() method
+    if (!$data) {
+        die("Notice not found.");
     }
+
+    $noticeModel->incrementViews($id);
+
+    // 3. Prepare variables for the View
+    $isBookmarked = false;
+    if (is_logged_in()) {
+        $isBookmarked = $bookmarkModel->exists($_SESSION['user']['user_id'], $id);
+    }
+    $comments = $commentModel->listApproved($id);
+
+    // 4. Send everything to the View
+    // The variables $data, $isBookmarked, and $comments are now available in view-notice.php
+    include __DIR__ . '/../view-notice.php';
+}
 }
