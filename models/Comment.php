@@ -20,7 +20,7 @@ class Comment {
     public function listApproved(int $noticeId) {
         $stmt = $this->pdo->prepare(
             "SELECT c.comment_id, c.notice_id, c.user_id, c.content,
-                    c.status, c.created_at, u.username
+                c.image_path, c.status, c.created_at, u.username
              FROM comments c
              JOIN users u ON c.user_id = u.user_id
              WHERE c.notice_id = ? AND c.status = 'approved'
