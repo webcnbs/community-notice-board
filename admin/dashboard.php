@@ -11,21 +11,22 @@ require_role(['admin']);
 
 // Fetch categories
 $categoryModel = new Category();
-$categories = $categoryModel->all(); // assumes you have an all() method
+$categories = $categoryModel->all(); 
 
 // Fetch recent audit logs
 $auditLogModel = new AuditLog();
-$logs = $auditLogModel->recent(10); // fetch last 10 logs
+$logs = $auditLogModel->recent(10); 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 </head>
 <body>
   <h2>Admin Dashboard</h2>
+  
   <section class="card">
     <h3>System Overview</h3>
     <p>Total Categories: <?php echo count($categories); ?></p>
@@ -40,20 +41,21 @@ $logs = $auditLogModel->recent(10); // fetch last 10 logs
       <?php endforeach; ?>
     </ul>
   </section>
+
 <nav class="admin-nav">
-  <a href="route.php?action=manage-users">Manage Users</a>
+  <a href="<?= BASE_URL ?>/route.php?action=manage-users">Manage Users</a>
   
-  <a href="admin/manage-categories.php">Manage Categories</a> 
+  <a href="<?= BASE_URL ?>/route.php?action=manage-categories">Manage Categories</a> 
   
-  <a href="route.php?action=manage-notices">Manage Notices</a>
+  <a href="<?= BASE_URL ?>/route.php?action=manage-notices">Manage Notices</a>
   
-  <a href="admin/manage-comments.php">Manage Comments</a>
+  <a href="<?= BASE_URL ?>/admin/manage-comments.php">Manage Comments</a>
   
   <hr>
   
-  <a href="user/profile.php">My Profile</a>
-  <a href="index.php">View Public Site</a>
-  <a href="route.php?action=logout" class="btn danger">Logout</a>
+  <a href="<?= BASE_URL ?>/user/profile.php">My Profile</a>
+  <a href="<?= BASE_URL ?>/index.php">View Public Site</a>
+  <a href="<?= BASE_URL ?>/route.php?action=logout" class="btn danger">Logout</a>
 </nav>
 </body>
 </html>

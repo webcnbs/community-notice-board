@@ -39,6 +39,10 @@ switch ($action) {
         (new AdminController())->manageUsers();
         break;
 
+    case 'manage-categories':
+        include __DIR__ . '/admin/manage-categories.php';
+        break;
+
         case 'index2':
        include __DIR__ . '/index2.php'; //index2 manager page fix
        break;

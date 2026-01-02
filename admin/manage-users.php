@@ -62,6 +62,6 @@ $users = $userModel->all();
     <?php endforeach; ?>
   </div>
 
-  <p><a href="<?= BASE_URL ?>/admin/dashboard.php" class="btn secondary">← Back to Dashboard</a></p>
+  <p><a href="<?= BASE_URL ?>/route.php?action=admin-dashboard" class="btn secondary">← Back to Dashboard</a></p>
 </body>
 </html>

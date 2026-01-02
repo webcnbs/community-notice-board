@@ -73,19 +73,21 @@ $notices = $noticeModel->all();
   </div>
 
 <?php
-  $role = $_SESSION['user']['role'] ?? '';
-  // ✅ CHANGE: Used BASE_URL for all dashboard links
-  if ($role === 'admin') {
-      $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard'; 
-  } elseif ($role === 'manager') {
-      $dashboardUrl = BASE_URL . '/index2.php'; 
-  } else {
-      $dashboardUrl = BASE_URL . '/index.php';
-  }
+$role = $_SESSION['user']['role'] ?? '';
+
+// We use BASE_URL to ensure we start from the project root
+if ($role === 'admin') {
+    // Use the Router instead of the direct file path
+    $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard'; 
+} elseif ($role === 'manager') {
+    $dashboardUrl = BASE_URL . '/index2.php';
+} else {
+    $dashboardUrl = BASE_URL . '/index.php';
+}
 ?>
 
-  <p class="mt-2">
-    <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back</a>
-  </p>
+<p class="mt-2">
+    <a href="<?= $dashboardUrl; ?>" class="btn secondary">← Back to Dashboard</a>
+</p>
 </body>
 </html>
