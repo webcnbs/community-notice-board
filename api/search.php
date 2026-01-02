@@ -1,4 +1,3 @@
-<!--Ian Wong -->
 <?php
 // api/search.php
 require_once __DIR__ . '/../models/Notice.php';

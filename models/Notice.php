@@ -62,6 +62,8 @@ class Notice {
     }
 
     // ✅ List notices with filters, pagination, and search
+    // ✅ List notices with improved search
+    // ✅ Updated List notices with search fix
     public function list(array $filters, int $limit = 10, int $offset = 0) {
         $where = []; 
         $params = [];
@@ -76,19 +78,21 @@ class Notice {
             $params[':priority'] = $filters['priority'];
         }
 
-        if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
-            $where[] = '(n.title LIKE :q OR n.content LIKE :q)';
-            $params[':q'] = $filters['q'] . '%';
+        
+         if (!empty($filters['q'])) {
+         $where[] = '(title LIKE :q1 OR content LIKE :q2)';
+         $searchVal = '%' . $filters['q'] . '%';
+         $params[':q1'] = $searchVal;
+         $params[':q2'] = $searchVal;
         }
 
         if (!empty($filters['active_only'])) {
             $where[] = '(n.expiry_date IS NULL OR n.expiry_date >= CURDATE())';
         }
 
-        
         $sql = "SELECT n.notice_id, n.title, n.priority, n.expiry_date, n.created_at, c.name AS category
-        FROM notices n 
-        LEFT JOIN categories c ON n.category_id = c.category_id"; // Changed JOIN to LEFT JOIN
+                FROM notices n 
+                LEFT JOIN categories c ON n.category_id = c.category_id";
 
         if ($where) {
             $sql .= " WHERE " . implode(' AND ', $where);
@@ -98,6 +102,7 @@ class Notice {
 
         $stmt = $this->pdo->prepare($sql);
 
+        // Bind all params
         foreach ($params as $key => $val) {
             $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
         }
@@ -111,40 +116,42 @@ class Notice {
 
     // ✅ Count notices matching filters
     public function count(array $filters) {
-        $where = []; 
-        $params = [];
+    $where = []; 
+    $params = [];
 
-        if (!empty($filters['category_id'])) {
-            $where[] = 'category_id = :category_id';
-            $params[':category_id'] = (int)$filters['category_id'];
-        }
-
-        if (!empty($filters['priority'])) {
-            $where[] = 'priority = :priority';
-            $params[':priority'] = $filters['priority'];
-        }
-
-        if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
-            $where[] = '(title LIKE :q OR content LIKE :q)';
-            $params[':q'] = $filters['q'] . '%';
-        }
-
-        if (!empty($filters['active_only'])) {
-            $where[] = '(expiry_date IS NULL OR expiry_date >= CURDATE())';
-        }
-
-        $sql = "SELECT COUNT(*) FROM notices";
-        if ($where) {
-            $sql .= " WHERE " . implode(' AND ', $where);
-        }
-
-        $stmt = $this->pdo->prepare($sql);
-        foreach ($params as $key => $val) {
-            $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
-        }
-        $stmt->execute();
-        return (int)$stmt->fetchColumn();
+    if (!empty($filters['category_id'])) {
+        $where[] = 'category_id = :category_id';
+        $params[':category_id'] = (int)$filters['category_id'];
     }
+
+    if (!empty($filters['priority'])) {
+        $where[] = 'priority = :priority';
+        $params[':priority'] = $filters['priority'];
+    }
+
+    if (!empty($filters['q'])) {
+        $where[] = '(title LIKE :q1 OR content LIKE :q2)';
+        $searchVal = '%' . $filters['q'] . '%';
+        $params[':q1'] = $searchVal;
+        $params[':q2'] = $searchVal;
+    }
+
+    if (!empty($filters['active_only'])) {
+        $where[] = '(expiry_date IS NULL OR expiry_date >= CURDATE())';
+    }
+
+    $sql = "SELECT COUNT(*) FROM notices";
+    if ($where) {
+        $sql .= " WHERE " . implode(' AND ', $where);
+    }
+
+    $stmt = $this->pdo->prepare($sql);
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    return (int)$stmt->fetchColumn();
+}
 
     // ✅ Increment view count
     public function incrementViews(int $id) {
