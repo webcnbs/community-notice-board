@@ -51,6 +51,8 @@ session_start();
       <a href="user/bookmarks.php" class="btn">🔖 My Bookmarks</a>
     </p>
   <?php endif; ?>
-
-<script src="<?= BASE_URL ?>/assets/js/ajax.js"></script></body>
+<!-- 
+  <script src="assets/js/ajax.js"></script> -->
+<script type="module" src="<?= BASE_URL ?>/assets/js/ajax.js"></script>  
+</body>
 </html>

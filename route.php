@@ -54,32 +54,20 @@ switch ($action) {
        case 'get-notices':
     require_once __DIR__ . '/models/Notice.php';
     $noticeModel = new Notice();
-
-    // 1. Setup Pagination & Filters
-    $limit  = (int)($_GET['limit'] ?? 10);
-    $page   = max(1, (int)($_GET['page'] ?? 1));
-    $offset = ($page - 1) * $limit;
-
+    
+    // Get filters from AJAX request
     $filters = [
         'category_id' => $_GET['category_id'] ?? null,
         'priority'    => $_GET['priority'] ?? null,
         'q'           => $_GET['q'] ?? null,
-        'active_only' => true
+        'active_only' => true // Residents should only see active notices
     ];
-
-    // 2. Fetch Data
-    $notices = $noticeModel->list($filters, $limit, $offset);
-    $total   = $noticeModel->count($filters); // Works now because route.php is connected to DB
-    $pages   = ceil($total / $limit);
-
-    // 3. Send Response
+    
+    $notices = $noticeModel->list($filters, 20, 0);
+    
+    // Send data back to ajax.js as JSON
     header('Content-Type: application/json');
-    echo json_encode([
-        'data'  => $notices,
-        'total' => $total,
-        'pages' => $pages,
-        'page'  => $page
-    ]);
+    echo json_encode($notices);
     exit;
         
 // Add these inside the switch ($action) block in route.php
@@ -102,40 +90,29 @@ case 'get-comments':
     exit;
 
     case 'add-comment':
+    // Check if user is logged in
     if (empty($_SESSION['user'])) {
-        die('Unauthorized');
+        header('Content-Type: application/json');
+        echo json_encode(['ok' => false, 'message' => 'Unauthorized']);
+        exit;
     }
 
-    // Use standard $_POST instead of php://input for image support
-    $noticeId = (int)($_POST['notice_id'] ?? 0);
-    $content = sanitize($_POST['content'] ?? '');
+    $input = json_decode(file_get_contents('php://input'), true);
+    $noticeId = (int)($input['notice_id'] ?? 0);
+    $content = sanitize($input['content'] ?? '');
 
     if ($noticeId > 0 && !empty($content)) {
-        // Handle your Comment model call here
         $stmt = Database::getInstance()->pdo()->prepare("
             INSERT INTO comments (notice_id, user_id, content, status) 
             VALUES (?, ?, ?, 'pending')
         ");
-        $stmt->execute([$noticeId, $_SESSION['user']['user_id'], $content]);
+        $success = $stmt->execute([$noticeId, $_SESSION['user']['user_id'], $content]);
         
-        // Redirect back to the notice page with a success message
-        header("Location: route.php?action=view-notice&id=$noticeId&commented=1");    }
-    exit;
-
-    case 'bookmark':
-    if (!is_logged_in()) die('Unauthorized');
-    require_once __DIR__ . '/models/Bookmark.php';
-    $bm = new Bookmark();
-    $noticeId = (int)$_POST['notice_id'];
-    $userId = $_SESSION['user']['user_id'];
-    $act = $_POST['action']; // 'add' or 'remove'
-
-    if ($act === 'add') {
-        $bm->add($userId, $noticeId);
+        header('Content-Type: application/json');
+        echo json_encode(['ok' => $success]);
     } else {
-        $bm->remove($userId, $noticeId);
+        echo json_encode(['ok' => false]);
     }
-    header("Location: route.php?action=view-notice&id=$noticeId");
     exit;
 
     default:
