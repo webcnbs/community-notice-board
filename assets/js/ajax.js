@@ -25,15 +25,26 @@ async function fetchJSON(url, options = {}) {
 // Notices list loading with filters
 async function fetchNotices(params = {}) {
   const qs = new URLSearchParams(params).toString();
-  const json = await fetchJSON(`api/notices.php?${qs}`);
+  
+  // ✅ Points directly to router
+  const json = await fetchJSON(`route.php?action=get-notices&${qs}`);
+  
   const list = document.getElementById('notice-list');
   if (!list) return;
   list.innerHTML = '';
-  json.data.forEach(n => {
+  
+  json.forEach(n => {
     const li = document.createElement('li');
     li.innerHTML = `
-      <a href="view-notice.php?id=${n.notice_id}">${n.title}</a>
-      <small>${n.category} • ${n.priority} • ${new Date(n.created_at).toLocaleString()}</small>
+      <div class="notice-item">
+        <a href="view-notice.php?id=${n.notice_id}" class="notice-title">${n.title}</a>
+        <br>
+        <small class="notice-meta">
+          ${n.category || 'Uncategorized'} • 
+          <span class="priority-${n.priority.toLowerCase()}">${n.priority}</span> • 
+          ${new Date(n.created_at).toLocaleString()}
+        </small>
+      </div>
     `;
     list.appendChild(li);
   });

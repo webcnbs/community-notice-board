@@ -8,8 +8,7 @@ session_start();
 <head>
   <meta charset="UTF-8">
   <title>Community Notice Board</title>
-  <link href="assets/css/style.css" rel="stylesheet">
-</head>
+<link href="<?= BASE_URL ?>/assets/css/style.css" rel="stylesheet"></head>
 <body>
   
   <header>
@@ -17,10 +16,10 @@ session_start();
     <nav>
       <?php if (!empty($_SESSION['user'])): ?>
         <span>Welcome, <?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>
-        <a href="logout.php">Logout</a>
-      <?php else: ?>
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
+        <a href="<?= BASE_URL ?>/route.php?action=logout">Logout</a>
+        <?php else: ?>
+        <a href="<?= BASE_URL ?>/login.php">Login</a>
+        <a href="<?= BASE_URL ?>/register.php">Register</a>
       <?php endif; ?>
     </nav>
   </header>
@@ -54,7 +53,6 @@ session_start();
   <?php endif; ?>
 <!-- 
   <script src="assets/js/ajax.js"></script> -->
-  <script type="module" src="assets/js/ajax.js"></script>
-  
+<script type="module" src="<?= BASE_URL ?>/assets/js/ajax.js"></script>  
 </body>
 </html>

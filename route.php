@@ -46,6 +46,25 @@ switch ($action) {
         case 'index2':
        include __DIR__ . '/index2.php'; //index2 manager page fix
        break;
+
+       case 'get-notices':
+    require_once __DIR__ . '/models/Notice.php';
+    $noticeModel = new Notice();
+    
+    // Get filters from AJAX request
+    $filters = [
+        'category_id' => $_GET['category_id'] ?? null,
+        'priority'    => $_GET['priority'] ?? null,
+        'q'           => $_GET['q'] ?? null,
+        'active_only' => true // Residents should only see active notices
+    ];
+    
+    $notices = $noticeModel->list($filters, 20, 0);
+    
+    // Send data back to ajax.js as JSON
+    header('Content-Type: application/json');
+    echo json_encode($notices);
+    exit;
         
     default:
         http_response_code(404);

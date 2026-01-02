@@ -85,9 +85,10 @@ class Notice {
             $where[] = '(n.expiry_date IS NULL OR n.expiry_date >= CURDATE())';
         }
 
+        
         $sql = "SELECT n.notice_id, n.title, n.priority, n.expiry_date, n.created_at, c.name AS category
-                FROM notices n 
-                JOIN categories c ON n.category_id = c.category_id";
+        FROM notices n 
+        LEFT JOIN categories c ON n.category_id = c.category_id"; // Changed JOIN to LEFT JOIN
 
         if ($where) {
             $sql .= " WHERE " . implode(' AND ', $where);
