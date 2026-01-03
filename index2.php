@@ -40,6 +40,8 @@ require_role(['manager']);
     </nav>
   </header>
 
+  <div style="padding: 10% 15% 10% 15%; background-color: #ffffffff;">
+
   <!-- Personalized welcome message using the logged-in user's username -->
   <h2 class="MDh2">Welcome, <?= htmlspecialchars($_SESSION['user']['username']) ?>!</h2>
 
@@ -57,6 +59,8 @@ require_role(['manager']);
     <a href="admin/manage-categories.php" class="MDbtn"><span class="icon">📂</span> Manage Categories</a>
     <a href="admin/manage-comments.php" class="MDbtn"><span class="icon">💬</span> Moderate Comments</a>
     <a href="user/profile.php" class="MDbtn"><span class="icon">👤</span> My Profile</a>
+  </div>
+
   </div>
 
   <!-- Footer section at the bottom of the page -->

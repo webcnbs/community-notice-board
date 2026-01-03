@@ -8,7 +8,7 @@ session_start();
 <head>
   <meta charset="UTF-8">
   <title>Community Notice Board</title>
-<link href="<?= BASE_URL ?>/assets/css/style.css" rel="stylesheet"></head>
+<link href="<?= BASE_URL ?>/assets/css/Nstyle.css" rel="stylesheet"></head>
 <body>
   
   <header>

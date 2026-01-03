@@ -160,141 +160,225 @@ button.danger { background: var(--danger); }
 .mt-1 { margin-top: 0.5rem; }
 .mt-2 { margin-top: 1rem; }
 .mt-3 { margin-top: 1.5rem; }
-
-
-
-
-/* Login page */
-.login-bg {
-  background: url('../images/forest-night.jpg') no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
+/* ===== Base page ===== */
+body {
+  background: #f4f6f8;
+  font-family: Arial, sans-serif;
+  color: #111827;
+  padding: 20px;
 }
 
-.login-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 2rem;
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
-.login-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
-  padding: 2rem;
-  max-width: 400px;
-  width: 100%;
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
-.login-card h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #fff;
+/* ===== Notice info ===== */
+p {
+  margin-bottom: 8px;
+  line-height: 1.5;
 }
 
-.login-card label {
-  color: #fff;
-  font-weight: 500;
+p strong {
+  color: #1f2937;
 }
 
-.login-card input {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.6rem 0.7rem;
-  width: 100%;
-}
-
-.login-card input::placeholder {
-  color: #ddd;
-}
-
-.login-card button {
-  background-color: #4f46e5;
+/* ===== Buttons ===== */
+button,
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
   border: none;
-  padding: 0.6rem 0.9rem;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: 600;
   cursor: pointer;
+  font-size: 14px;
+  background: #2563eb;
+  color: white;
+}
+
+button.danger {
+  background: #dc2626;
+}
+
+.btn.secondary {
+  background: #6b7280;
+  text-decoration: none;
+}
+
+.mt-2 {
+  margin-top: 20px;
+}
+
+/* ===== Info text ===== */
+.info {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== Comments section ===== */
+#comment-list {
+  margin-top: 10px;
+}
+
+.comment {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment strong {
+  color: #2563eb;
+}
+
+.comment small {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ===== Comment form ===== */
+textarea {
   width: 100%;
-  margin-top: 1rem;
+  min-height: 90px;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  resize: vertical;
 }
 
-.login-footer {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  text-align: center;
+/* ===== Forms spacing ===== */
+form {
+  margin-top: 15px;
+}css
+/* ===== Base page ===== */
+body {
+  background: #f4f6f8;
+  font-family: Arial, sans-serif;
+  color: #111827;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.login-footer a {
-  color: #cbd5e1;
-  text-decoration: underline;
+/* ===== Headings ===== */
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 10px;
 }
 
-.remember {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: #fff;
-  width: 50% !important;
+h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
-
-
-
-.LRheader{
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  z-index: 1000 !important;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem !important;
-  background:#dc00bc1a !important;
-  backdrop-filter: blur(10px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
+/* ===== Notice info ===== */
+p {
+  margin-bottom: 8px;
+  line-height: 1.5;
 }
 
-.LRheader h1 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: #fff;
+p strong {
+  color: #1f2937;
+  min-width: 100px;
+  display: inline-block;
 }
 
-.LRheader nav p {
-  margin: 0;
-  color: #cbd5e1;
+/* ===== Buttons ===== */
+button,
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: #2563eb;
+  color: white;
+  display: inline-block;
+  text-decoration: none;
 }
 
-.LRheader nav a {
-  margin-left: 0.5rem;
-  color: #cbd5e1;
-  text-decoration: underline;
+button:hover,
+.btn:hover {
+  opacity: 0.9;
 }
 
+button.danger {
+  background: #dc2626;
+}
 
+.btn.secondary {
+  background: #6b7280;
+}
 
+.mt-2 {
+  margin-top: 20px;
+}
 
+/* ===== Info text ===== */
+.info {
+  color: #6b7280;
+  font-size: 14px;
+  background: #f3f4f6;
+  padding: 10px;
+  border-radius: 6px;
+  border-left: 3px solid #2563eb;
+}
 
+/* ===== Comments section ===== */
+#comment-list {
+  margin-top: 10px;
+}
 
+.comment {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
 
-    /* Priority Colors */
-.priority-high { color: #dc2626; font-weight: bold; }   /* Red */
-.priority-medium { color: #d97706; font-weight: bold; } /* Orange */
-.priority-low { color: #16a34a; font-weight: bold; }    /* Green */
+.comment strong {
+  color: #2563eb;
+}
+
+.comment small {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ===== Comment form ===== */
+textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  resize: vertical;
+}
+
+/* ===== Forms spacing ===== */
+form {
+  margin-top: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
 
 /* Notice List Styling */
 .notice-item {

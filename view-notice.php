@@ -39,7 +39,7 @@ $comments = $commentModel->listApproved($id);
 <html>
 <head>
     <title><?= htmlspecialchars($data['title']) ?></title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/Nstyle.css">
 </head>
 <body>
     <h1><?= htmlspecialchars($data['title']) ?></h1>
