@@ -15,7 +15,7 @@ $method = $_SERVER['REQUEST_METHOD']; //checks if it is GET or POST request meth
 //if the request is GET 
 if ($method === 'GET') {
     $noticeId = (int)($_GET['notice_id'] ?? 0);
-    $stmt = $pdo->prepare("SELECT c.comment_id, c.content, c.created_at, u.username
+    $stmt = $pdo->prepare("SELECT c.comment_id, c.content, c.image_path, c.created_at, u.username
                            FROM comments c JOIN users u ON c.user_id=u.user_id
                            WHERE c.notice_id=? AND c.status='approved' ORDER BY c.created_at DESC");
     $stmt->execute([$noticeId]);
