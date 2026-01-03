@@ -1,4 +1,3 @@
-<!--Ian Wong -->
 <?php
 // api/stats.php
 
