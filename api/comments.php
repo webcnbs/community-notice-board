@@ -1,14 +1,19 @@
 <!--Ian Wong -->
 <?php
 // api/comments.php
+
+//loads database class and functions
 require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../includes/functions.php';
-session_name(SESSION_NAME); session_start();
-header('Content-Type: application/json');
 
-$pdo = Database::getInstance()->pdo();
-$method = $_SERVER['REQUEST_METHOD'];
 
+session_name(SESSION_NAME); session_start(); //setting custom session name
+header('Content-Type: application/json'); //setting the response type to JSON
+
+$pdo = Database::getInstance()->pdo(); //access the shared database instance
+$method = $_SERVER['REQUEST_METHOD']; //checks if it is GET or POST request method 
+
+//if the request is GET 
 if ($method === 'GET') {
     $noticeId = (int)($_GET['notice_id'] ?? 0);
     $stmt = $pdo->prepare("SELECT c.comment_id, c.content, c.created_at, u.username
@@ -19,6 +24,7 @@ if ($method === 'GET') {
     exit;
 }
 
+//if the request is POST 
 if ($method === 'POST') {
     if (!is_logged_in()) { http_response_code(401); echo json_encode(['error'=>'auth']); exit; }
     $payload = json_decode(file_get_contents('php://input'), true);
