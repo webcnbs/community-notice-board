@@ -17,11 +17,19 @@ class User {
     }
 
     // ✅ Check if email already exists (used in registration)
-    public function exists(string $email): bool {
+    public function emailExists(string $email): bool {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetchColumn() > 0;
     }
+
+    // check if username already exists (used in registration)
+    public function usernameExists(string $username): bool {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetchColumn() > 0;
+    }
+
 
     // ✅ Create a new user (used in registration)
     public function create(string $username, string $email, string $password) {
