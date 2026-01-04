@@ -1,6 +1,4 @@
-<!--Ian Wong -->
 <?php
-
 //loads the Notice model which interacts with the database
 require_once __DIR__ . '/../models/Notice.php'; 
 header('Content-Type: application/json'); //setting the response type to JSON
