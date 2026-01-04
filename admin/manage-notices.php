@@ -29,8 +29,9 @@ if ($role === 'admin') {
 <head>
   <meta charset="UTF-8">
   <title>Manage Notices</title>
- <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/MDstyle.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/MDstyle.css">
+
 </head>
 
 <body class="MDbody">
