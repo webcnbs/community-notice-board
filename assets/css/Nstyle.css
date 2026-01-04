@@ -404,3 +404,28 @@ form {
 .notice-meta {
     color: #666;
 }
+
+
+
+.LRheader h1 a {
+  text-decoration: none;
+  color: #000000;
+}
+
+
+/* Logo styling */
+.LRlogo {
+  height: 60px;              /* keeps logo consistent in header */
+  width: auto;               /* maintains aspect ratio */
+  vertical-align: middle;    /* aligns nicely with text */
+  border-radius: 6px;        /* optional: rounded corners */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* smooth hover effect */
+  text-decoration: none;
+}
+
+/* Hover effect for logo */
+.LRlogo:hover {
+  transform: scale(1.05);    /* subtle zoom */
+  opacity: 0.9;              /* slight fade */
+  cursor: pointer;           /* indicates interactivity */
+}

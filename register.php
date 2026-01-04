@@ -17,7 +17,7 @@ require_once __DIR__ . '/includes/csrf.php';
 </head>
 <body class="login-bg">
   <header class="LRheader">
-    <h1>Community Notice Board</h1>
+    <h1> <a href="index.php"> <img class="LRlogo" src="assets/images/logo.png" alt=""> Grand Nova </a></h1>
     <nav>
       <p>Without an account? <a href="login.php">Login</a></p>
     </nav>

@@ -30,7 +30,7 @@ require_role(['manager']);
   <!-- Header section at the top of the dashboard -->
   <header class="MDheader">
     <!-- Title of the application -->
-    <h1>Community Notice Board</h1>
+    <h1> Grand Nova </h1>
     <!-- Navigation bar inside the header -->
     <nav class="MDnav">
       <!-- Dark mode toggle button (🌙 by default, switches to ☀️ when active) -->

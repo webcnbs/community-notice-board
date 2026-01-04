@@ -185,7 +185,8 @@ button.danger { background: var(--danger); }
 
 .login-card {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) !important; /* ✅ now correctly inside */
+  -webkit-backdrop-filter: blur(12px) !important; /* Safari support */
   border-radius: 12px;
   padding: 2rem;
   max-width: 400px;
@@ -252,7 +253,7 @@ button.danger { background: var(--danger); }
 
 
 
-.LRheader{
+.LRheader {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -262,8 +263,9 @@ button.danger { background: var(--danger); }
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem !important;
-  background:#dc00bc1a !important;
-  backdrop-filter: blur(10px) !important;
+  background: #f7f1f61a !important; /* semi-transparent background */
+  backdrop-filter: blur(10px) !important; /* ✅ now correctly inside */
+  -webkit-backdrop-filter: blur(10px) !important; /* Safari support */
   border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
   color: #fff !important;
 }
@@ -285,8 +287,28 @@ button.danger { background: var(--danger); }
   text-decoration: underline;
 }
 
+.LRheader h1 a {
+  text-decoration: none;
+  color: #fff;
+}
 
 
+/* Logo styling */
+.LRlogo {
+  height: 60px;              /* keeps logo consistent in header */
+  width: auto;               /* maintains aspect ratio */
+  vertical-align: middle;    /* aligns nicely with text */
+  border-radius: 6px;        /* optional: rounded corners */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* smooth hover effect */
+  text-decoration: none;
+}
+
+/* Hover effect for logo */
+.LRlogo:hover {
+  transform: scale(1.05);    /* subtle zoom */
+  opacity: 0.9;              /* slight fade */
+  cursor: pointer;           /* indicates interactivity */
+}
 
 
 

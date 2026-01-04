@@ -11,8 +11,8 @@ session_start();
 <link href="<?= BASE_URL ?>/assets/css/Nstyle.css" rel="stylesheet"></head>
 <body>
   
-  <header>
-    <h1>Community Notice Board</h1>
+  <header class="LRheader">
+    <h1> <a href="index.php"> <img class="LRlogo" src="assets/images/logo.png" alt=""> Grand Nova </a></h1>
     <nav>
       <?php if (!empty($_SESSION['user'])): ?>
         <span>Welcome, <?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>
