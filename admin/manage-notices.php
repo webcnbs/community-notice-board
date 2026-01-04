@@ -14,80 +14,111 @@ $categories = $categoryModel->all();
 
 $noticeModel = new Notice();
 $notices = $noticeModel->all();
-?>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Manage Notices</title>
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/MDstyle.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css"> 
-</head>
-<body>
-  <h2>Manage Notices</h2>
 
-  <?php if (isset($_GET['created'])): ?>
-    <p class="success">Notice created successfully!</p>
-  <?php endif; ?>
-
-  <form method="post" action="<?= BASE_URL ?>/route.php?action=manage-notices">
-    <?php csrf_field(); ?>
-    <input type="hidden" name="action" value="create">
-    <label>Title</label><input name="title" required>
-    <label>Content</label><textarea name="content" required></textarea>
-    <label>Category</label>
-    <select name="category_id" required>
-      <?php foreach ($categories as $c): ?>
-        <option value="<?php echo $c['category_id']; ?>">
-          <?php echo htmlspecialchars($c['name']); ?>
-        </option>
-      <?php endforeach; ?>
-    </select>
-    <label>Priority</label>
-    <select name="priority">
-      <option>Low</option>
-      <option>Medium</option>
-      <option>High</option>
-    </select>
-    <label>Expiry</label><input type="date" name="expiry_date">
-    <button type="submit">Create Notice</button>
-  </form>
-
-  <hr>
-  <h3>Existing Notices</h3>
-  <div class="admin-list">
-    <?php foreach ($notices as $n): ?>
-      <div class="admin-item">
-        <span>
-          <?php echo htmlspecialchars($n['title']); ?>
-          (<?php echo htmlspecialchars($n['category_name'] ?? 'Uncategorized'); ?>)
-        </span>
-        <form method="post" action="<?= BASE_URL ?>/route.php?action=manage-notices"> 
-          <?php csrf_field(); ?>
-          <input type="hidden" name="action" value="delete">
-          <input type="hidden" name="notice_id" value="<?php echo $n['notice_id']; ?>">
-          <button type="submit" class="danger">Delete</button>
-        </form>
-      </div>
-    <?php endforeach; ?>
-  </div>
-
-<?php
 $role = $_SESSION['user']['role'] ?? '';
-
-// We use BASE_URL to ensure we start from the project root
 if ($role === 'admin') {
-    // Use the Router instead of the direct file path
-    $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard'; 
+    $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard';
 } elseif ($role === 'manager') {
     $dashboardUrl = BASE_URL . '/index2.php';
 } else {
     $dashboardUrl = BASE_URL . '/index.php';
 }
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Notices</title>
+ <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/MDstyle.css">
+</head>
 
-<p class="mt-2">
-    <a href="<?= $dashboardUrl; ?>" class="btn secondary">← Back to Dashboard</a>
-</p>
+<body class="MDbody">
+
+  <header class="MDheader">
+    <h1>Manage Notices</h1>
+
+    <nav class="MDnav">
+      <a class="MDbtn secondary" href="<?= $dashboardUrl; ?>">Back</a>
+      <a class="MDbtn danger" href="<?= BASE_URL ?>/route.php?action=logout">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <?php if (isset($_GET['created'])): ?>
+      <p class="success">Notice created successfully!</p>
+    <?php endif; ?>
+
+    <!-- Create Notice -->
+    <section class="card">
+      <h2 style="margin-top:0;">Create Notice</h2>
+
+      <form method="post" action="<?= BASE_URL ?>/route.php?action=manage-notices">
+        <?php csrf_field(); ?>
+        <input type="hidden" name="action" value="create">
+
+        <label>Title</label>
+        <input type="text" name="title" required>
+
+        <label>Content</label>
+        <textarea name="content" required></textarea>
+
+        <label>Category</label>
+        <select name="category_id" required>
+          <?php foreach ($categories as $c): ?>
+            <option value="<?= (int)$c['category_id']; ?>">
+              <?= htmlspecialchars($c['name']); ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+
+        <label>Priority</label>
+        <select name="priority">
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+
+        <label>Expiry Date</label>
+        <input type="date" name="expiry_date">
+
+        <button type="submit">Create Notice</button>
+      </form>
+    </section>
+
+    <!-- Existing Notices -->
+    <section class="card mt-2">
+      <h2 style="margin-top:0;">Existing Notices</h2>
+
+      <?php if (empty($notices)): ?>
+        <p>No notices found.</p>
+      <?php else: ?>
+        <div class="admin-list">
+          <?php foreach ($notices as $n): ?>
+            <div class="admin-item">
+              <span>
+                <?= htmlspecialchars($n['title']); ?>
+                <small>
+                  (<?= htmlspecialchars($n['category_name'] ?? 'Uncategorized'); ?>)
+                </small>
+              </span>
+
+              <div class="admin-item-actions">
+                <form method="post" action="<?= BASE_URL ?>/route.php?action=manage-notices">
+                  <?php csrf_field(); ?>
+                  <input type="hidden" name="action" value="delete">
+                  <input type="hidden" name="notice_id" value="<?= (int)$n['notice_id']; ?>">
+                  <button type="submit" class="danger">Delete</button>
+                </form>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </section>
+
+  </div>
+
 </body>
 </html>
