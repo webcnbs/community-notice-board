@@ -40,7 +40,7 @@ require_role(['manager']);
     </nav>
   </header>
 
-  <div style="padding: 10% 15% 10% 15%; background-color: #ffffffff;">
+  <div style="padding: 10% 15% 10% 15%;">
 
   <!-- Personalized welcome message using the logged-in user's username -->
   <h2 class="MDh2">Welcome, <?= htmlspecialchars($_SESSION['user']['username']) ?>!</h2>

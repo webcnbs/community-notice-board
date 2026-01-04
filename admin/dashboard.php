@@ -52,9 +52,9 @@ $logs = $auditLogModel->recent(10);
   <a href="<?= BASE_URL ?>/admin/manage-comments.php">Manage Comments</a>
   
   <hr>
-  
+  <a href="../user/my-notices.php">My Notices</a>
+  <a href="../user/bookmarks.php">Bookmarks</a>
   <a href="<?= BASE_URL ?>/user/profile.php">My Profile</a>
-  <a href="<?= BASE_URL ?>/index.php">View Public Site</a>
   <a href="<?= BASE_URL ?>/route.php?action=logout" class="btn danger">Logout</a>
 </nav>
 </body>
