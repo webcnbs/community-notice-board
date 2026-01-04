@@ -17,54 +17,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $color = $_POST['color_code'] ?? '#888888';
         $categoryModel->create($name, $description, $color);
     }
+
+    // simple redirect (prevents re-submit on refresh)
+    header("Location: " . BASE_URL . "/admin/manage-categories.php");
+    exit;
 }
+
 $categories = $categoryModel->all();
-?>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Manage Categories</title>
-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
-  <h2>Manage Categories</h2>
 
-  <form method="post" action="<?= BASE_URL ?>/admin/manage-categories.php">
-    <label>Name</label><input type="text" name="name" required>
-    <label>Description</label><input type="text" name="description">
-    <label>Color</label><input type="color" name="color_code" value="#888888">
-    <button type="submit">Add Category</button>
-  </form>
-  <hr>
-  <ul>
-    <?php foreach ($categories as $c): ?>
-      <li style="color:<?php echo htmlspecialchars($c['color_code']); ?>">
-        <?php echo htmlspecialchars($c['name']); ?>
-        <form method="post" style="display:inline;" action="<?= BASE_URL ?>/admin/manage-categories.php">
-          <input type="hidden" name="category_id" value="<?php echo $c['category_id']; ?>">
-          <button name="action" value="delete" class="danger">Delete</button>
-        </form>
-      </li>
-    <?php endforeach; ?>
-  </ul>
-
-<?php
 $role = $_SESSION['user']['role'] ?? '';
-
-// We use BASE_URL to ensure we start from the project root
 if ($role === 'admin') {
-    // Use the Router instead of the direct file path
-    $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard'; 
+    $dashboardUrl = BASE_URL . '/route.php?action=admin-dashboard';
 } elseif ($role === 'manager') {
     $dashboardUrl = BASE_URL . '/index2.php';
 } else {
     $dashboardUrl = BASE_URL . '/index.php';
 }
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Categories</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/MDstyle.css">
+</head>
 
-<p class="mt-2">
-    <a href="<?= $dashboardUrl; ?>" class="btn secondary">← Back to Dashboard</a>
-</p>
+<body class="MDbody">
+
+  <header class="MDheader">
+    <h1>Manage Categories</h1>
+
+    <nav class="MDnav">
+      <a class="MDbtn secondary" href="<?= $dashboardUrl; ?>">Back</a>
+      <a class="MDbtn danger" href="<?= BASE_URL ?>/route.php?action=logout">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <section class="card">
+      <h2 style="margin-top:0;">Add  Category</h2>
+
+      <form method="post" action="<?= BASE_URL ?>/admin/manage-categories.php">
+        <label>Name</label>
+        <input type="text" name="name" required>
+
+        <label>Description</label>
+        <input type="text" name="description">
+
+        <label>Color</label>
+        <input type="color" name="color_code" value="#888888">
+
+        <button type="submit">Add Category</button>
+      </form>
+    </section>
+
+    <section class="card mt-2">
+      <h2 style="margin-top:0;">All Categories</h2>
+
+      <?php if (empty($categories)): ?>
+        <p>No categories yet.</p>
+      <?php else: ?>
+        <div class="admin-list">
+          <?php foreach ($categories as $c): ?>
+            <div class="admin-item">
+              <span>
+                <strong style="color:<?= htmlspecialchars($c['color_code']) ?>;">
+                  <?= htmlspecialchars($c['name']) ?>
+                </strong>
+                <?php if (!empty($c['description'])): ?>
+                  <small style="display:block;">
+                    <?= htmlspecialchars($c['description']) ?>
+                  </small>
+                <?php endif; ?>
+              </span>
+
+              <div class="admin-item-actions">
+                <form method="post" action="<?= BASE_URL ?>/admin/manage-categories.php" style="display:inline;">
+                  <input type="hidden" name="category_id" value="<?= (int)$c['category_id']; ?>">
+                  <button name="action" value="delete" class="danger">Delete</button>
+                </form>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
+    </section>
+
+  </div>
+
 </body>
 </html>
