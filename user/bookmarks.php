@@ -18,7 +18,8 @@ $bookmarks = $bookmarkModel->list($_SESSION['user']['user_id']);
   
   <meta charset="UTF-8">
   <title>My Bookmarks</title>
-    <link rel="stylesheet" href="/assets/css/Nstyle.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
 <body>
   <h2>My Bookmarks</h2>
 
