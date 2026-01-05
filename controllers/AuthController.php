@@ -10,47 +10,76 @@ require_once __DIR__ . '/../includes/database.php';
 class AuthController {
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!csrf_verify($_POST['csrf'] ?? '')) die('Invalid CSRF token');
-            $email = sanitize($_POST['email'] ?? '');
+            if (!csrf_verify($_POST['csrf'] ?? '')) {
+                $error = 'Session expired. Please try again.';
+                include __DIR__ . '/../login.php';
+                return;
+            }
+
+            $email    = sanitize($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
             $remember = isset($_POST['remember']);
 
             $userModel = new User();
             $user = $userModel->findByEmail($email);
 
-            if ($user && $user['status'] === 'active' && password_verify($password, $user['password'])) {
-                $_SESSION['user'] = [
-                    'user_id'   => $user['user_id'],
-                    'username'  => $user['username'],
-                    'role'      => $user['role']
-                ];
-
-                // Record Login Action
-                (new AuditLog())->record($user['user_id'], 'Login', 'User logged into the system');
-
-                if ($remember) {
-                    $token = bin2hex(random_bytes(32));
-                    $pdo = Database::getInstance()->pdo();
-                    $pdo->prepare("UPDATE users SET remember_token=? WHERE user_id=?")
-                        ->execute([$token, $user['user_id']]);
-                    setcookie(REMEMBER_COOKIE, $token, time() + REMEMBER_LIFETIME, '/', '', false, true);
-                }
-
-                // Redirect based on role
-                if ($user['role'] === 'admin') {
-                    header('Location: route.php?action=admin-dashboard'); exit;
-                } elseif ($user['role'] === 'manager') {
-                    header('Location: route.php?action=index2'); exit;
-                } else {
-                    header('Location: index.php'); exit;
-                }
+            // User not found OR password incorrect
+            if (!$user || !password_verify($password, $user['password'])) {
+                $error = 'Invalid email or password.';
+                include __DIR__ . '/../login.php';
+                return;
             }
 
-            $error = 'Invalid credentials or inactive account';
-            include __DIR__ . '/../login.php';
-        } else {
-            include __DIR__ . '/../login.php';
+            // Account exists but not active
+            if ($user['status'] !== 'active') {
+                $error = 'Your account is not active. Please wait for approval.';
+                include __DIR__ . '/../login.php';
+                return;
+            }
+
+            // ✅ Login successful
+            $_SESSION['user'] = [
+                'user_id'  => $user['user_id'],
+                'username' => $user['username'],
+                'role'     => $user['role']
+            ];
+
+            // Record login action
+            (new AuditLog())->record(
+                $user['user_id'],
+                'Login',
+                'User logged into the system'
+            );
+
+            // Remember me
+            if ($remember) {
+                $token = bin2hex(random_bytes(32));
+                Database::getInstance()->pdo()
+                    ->prepare("UPDATE users SET remember_token=? WHERE user_id=?")
+                    ->execute([$token, $user['user_id']]);
+
+                setcookie(
+                    REMEMBER_COOKIE,
+                    $token,
+                    time() + REMEMBER_LIFETIME,
+                    '/',
+                    '',
+                    false,
+                    true
+                );
+            }
+
+            // Redirect based on role
+            if ($user['role'] === 'admin') {
+                header('Location: route.php?action=admin-dashboard'); exit;
+            } elseif ($user['role'] === 'manager') {
+                header('Location: route.php?action=index2'); exit;
+            } else {
+                header('Location: index.php'); exit;
+            }
         }
+
+        include __DIR__ . '/../login.php';
     }
 
     public function register() {
