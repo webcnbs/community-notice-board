@@ -23,10 +23,10 @@ VALUES
 -- Testing
 ('Old Announcement', 'This notice is expired.', 4, 'Low', 1, DATE_SUB(CURDATE(), INTERVAL 2 DAY));
 
-INSERT INTO comments (notice_id, user_id, content, status)
+INSERT INTO comments (notice_id, user_id, content, image_path, status)
 VALUES
 -- Comments for Notice 1: Community Cleanup Day
-(1, 2, 'I will be joining with my family.', 'approved'),
+(1, 2, 'I will be joining with my family.', 'uploads/comments/comment_1_1_2.jpg', 'approved'),
 (1, 3, 'What time does the event start?', 'pending'),
 
 -- Notice 2: Health Awareness Talk
@@ -34,7 +34,7 @@ VALUES
 
 -- Notice 3: Sports Day Registration
 (3, 2, 'Can teenagers participate?', 'approved'),
-(3, 3, 'Looking forward to this event!', 'approved'),
+(3, 3, 'Looking forward to this event!', 'uploads/comments/comment_5_3_3.jpg', 'approved'),
 
 -- Notice 4: Water Supply Disruption
 (4, 2, 'Will water be restored by morning?', 'approved'),
