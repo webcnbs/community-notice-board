@@ -68,16 +68,25 @@ switch ($action) {
         $noticeModel = new Notice();
 
         $filters = [
-            'category_id' => $_GET['category_id'] ?? null,
-            'priority'    => $_GET['priority'] ?? null,
-            'q'           => $_GET['q'] ?? null,
-            'active_only' => true // Residents should only see active notices
+            'category_id' => !empty($_GET['category_id']) ? (int)$_GET['category_id'] : null,
+            'priority'    => !empty($_GET['priority']) ? $_GET['priority'] : null,
+            'q'           => !empty($_GET['q']) ? trim($_GET['q']) : null,
+            'active_only' => true 
         ];
 
+        // 1. Get the list of notices
         $notices = $noticeModel->list($filters, 20, 0);
 
+        // 2. IMPORTANT: Get the total count using the method we just fixed!
+        $total = $noticeModel->count($filters);
+
         header('Content-Type: application/json');
-        echo json_encode($notices);
+        
+        // 3. Send back an object containing BOTH the notices and the total
+        echo json_encode([
+            'notices' => $notices,
+            'total'   => $total
+        ]);
         exit;
 
     case 'get-comments':

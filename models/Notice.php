@@ -63,6 +63,54 @@ class Notice {
 
     // ✅ List notices with filters, pagination, and search
     public function list(array $filters, int $limit = 10, int $offset = 0) {
+    $where = []; 
+    $params = [];
+
+    if (!empty($filters['category_id'])) {
+        $where[] = 'n.category_id = :category_id';
+        $params[':category_id'] = (int)$filters['category_id'];
+    }
+
+    if (!empty($filters['priority'])) {
+        $where[] = 'n.priority = :priority';
+        $params[':priority'] = $filters['priority'];
+    }
+
+    //search for the query string within the notice title only
+    if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
+        $where[] = 'n.title LIKE :q1';
+        $params[':q1'] = '%' . $filters['q'] . '%';
+        
+    }
+
+    if (!empty($filters['active_only'])) {
+        $where[] = '(n.expiry_date IS NULL OR n.expiry_date >= CURDATE())';
+    }
+
+    $sql = "SELECT n.notice_id, n.title, n.priority, n.expiry_date, n.created_at, c.name AS category
+            FROM notices n 
+            LEFT JOIN categories c ON n.category_id = c.category_id";
+
+    if (!empty($where)) {
+        $sql .= " WHERE " . implode(' AND ', $where);
+    }
+
+    // FIX: Inject limit and offset directly to avoid parameter binding conflicts
+    $sql .= " ORDER BY n.created_at DESC LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
+
+    $stmt = $this->pdo->prepare($sql);
+
+    // Bind only the filter parameters
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+
+    $stmt->execute(); // This is Line 108
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+    // ✅ Count notices matching filters
+    public function count(array $filters) {
         $where = []; 
         $params = [];
 
@@ -77,63 +125,15 @@ class Notice {
         }
 
         if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
-            $where[] = '(n.title LIKE :q OR n.content LIKE :q)';
-            $params[':q'] = $filters['q'] . '%';
+            $where[] = 'n.title LIKE :q1';
+            $params[':q1'] = '%' . $filters['q'] . '%';
+            
         }
-
         if (!empty($filters['active_only'])) {
             $where[] = '(n.expiry_date IS NULL OR n.expiry_date >= CURDATE())';
         }
 
-        
-        $sql = "SELECT n.notice_id, n.title, n.priority, n.expiry_date, n.created_at, c.name AS category
-        FROM notices n 
-        LEFT JOIN categories c ON n.category_id = c.category_id"; // Changed JOIN to LEFT JOIN
-
-        if ($where) {
-            $sql .= " WHERE " . implode(' AND ', $where);
-        }
-
-        $sql .= " ORDER BY n.created_at DESC LIMIT :limit OFFSET :offset";
-
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($params as $key => $val) {
-            $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
-        }
-
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // ✅ Count notices matching filters
-    public function count(array $filters) {
-        $where = []; 
-        $params = [];
-
-        if (!empty($filters['category_id'])) {
-            $where[] = 'category_id = :category_id';
-            $params[':category_id'] = (int)$filters['category_id'];
-        }
-
-        if (!empty($filters['priority'])) {
-            $where[] = 'priority = :priority';
-            $params[':priority'] = $filters['priority'];
-        }
-
-        if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
-            $where[] = '(title LIKE :q OR content LIKE :q)';
-            $params[':q'] = $filters['q'] . '%';
-        }
-
-        if (!empty($filters['active_only'])) {
-            $where[] = '(expiry_date IS NULL OR expiry_date >= CURDATE())';
-        }
-
-        $sql = "SELECT COUNT(*) FROM notices";
+        $sql = "SELECT COUNT(*) FROM notices n";
         if ($where) {
             $sql .= " WHERE " . implode(' AND ', $where);
         }
