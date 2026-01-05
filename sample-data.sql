@@ -27,37 +27,37 @@ INSERT INTO comments (notice_id, user_id, content, image_path, status)
 VALUES
 -- Comments for Notice 1: Community Cleanup Day
 (1, 2, 'I will be joining with my family.', 'uploads/comments/comment_1_1_2.jpg', 'approved'),
-(1, 3, 'What time does the event start?', 'pending'),
+(1, 3, 'What time does the event start?', NULL, 'pending'),
 
 -- Notice 2: Health Awareness Talk
-(2, 1, 'Is registration required?', 'pending'),
+(2, 1, 'Is registration required?', NULL, 'pending'),
 
 -- Notice 3: Sports Day Registration
-(3, 2, 'Can teenagers participate?', 'approved'),
+(3, 2, 'Can teenagers participate?', NULL, 'approved'),
 (3, 3, 'Looking forward to this event!', 'uploads/comments/comment_5_3_3.jpg', 'approved'),
 
 -- Notice 4: Water Supply Disruption
-(4, 2, 'Will water be restored by morning?', 'approved'),
-(4, 3, 'Thanks for the early notice.', 'approved'),
+(4, 2, 'Will water be restored by morning?', NULL, 'approved'),
+(4, 3, 'Thanks for the early notice.', NULL, 'approved'),
 
 -- Notice 5: Gas Leak Reported
-(5, 2, 'Emergency services are already on site.', 'approved'),
-(5, 3, 'Hope everyone is safe.', 'approved'),
+(5, 2, 'Emergency services are already on site.', NULL, 'approved'),
+(5, 3, 'Hope everyone is safe.', NULL, 'approved'),
 
 -- Notice 6: Flood Warning
-(6, 1, 'Please avoid unnecessary travel.', 'approved'),
+(6, 1, 'Please avoid unnecessary travel.', NULL, 'approved'),
 
 -- Notice 7: Elevator Maintenance
-(7, 3, 'Will the stairs be accessible?', 'pending'),
+(7, 3, 'Will the stairs be accessible?', NULL, 'pending'),
 
 -- Notice 8: Internet Service Downtime
-(8, 2, 'Thanks for informing us early.', 'approved'),
+(8, 2, 'Thanks for informing us early.', NULL, 'approved'),
 
 -- Notice 9: Office Closed on Public Holiday
-(9, 3, 'Does this include customer support?', 'pending'),
+(9, 3, 'Does this include customer support?', NULL, 'pending'),
 
 -- Notice 10: New Parking Rules
-(10, 2, 'Where can we find the full guidelines?', 'approved'),
+(10, 2, 'Where can we find the full guidelines?', NULL, 'approved'),
 
 -- Expired Notice (if you added one)
-(11, 1, 'This announcement is no longer relevant.', 'rejected');
+(11, 1, 'This announcement is no longer relevant.', NULL, 'rejected');
