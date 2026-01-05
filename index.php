@@ -39,11 +39,17 @@ session_start();
         <option>Medium</option>
         <option>Low</option>
       </select>
-      <input type="text" id="filter-q" placeholder="Search...">
+      <input type="text" id="filter-q" placeholder="Search notices...">
       <button id="filter-go">Apply</button>
+      
+      <button id="filter-clear" style="background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; margin-left: 5px;">Clear</button>
     </div>
+
+    <div id="results-meta" style="display: none; margin-bottom: 15px; font-size: 0.9em; color: #666;">
+        Found <span id="results-count" style="font-weight: bold; color: #2563eb;">0</span> matching notices.
+    </div>
+
     <ul id="notice-list"></ul>
-  </div>
 
   <?php if (!empty($_SESSION['user']) && $_SESSION['user']['role'] === 'resident'): ?>
     <p class="mt-2">
