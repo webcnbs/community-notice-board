@@ -7,7 +7,6 @@ VALUES
 ('admin', 'admin@cnbs.local', '$2y$10$wH8YxLq6U7ZQnN9V4Jc8nOZq1YxY9WQFJQX1rJwFJQxY9Y0pYFZ6', 'admin', 'active'),
 ('manager1', 'manager1@example.com', '$2y$10$wH8YxLq6U7ZQnN9V4Jc8nOZq1YxY9WQFJQX1rJwFJQxY9Y0pYFZ6', 'manager', 'active'),
 ('resident1', 'resident1@example.com', '$2y$10$wH8YxLq6U7ZQnN9V4Jc8nOZq1YxY9WQFJQX1rJwFJQxY9Y0pYFZ6', 'resident', 'active'),
-('Vinod', 'vs@e.com', '$2y$10$pd0IekfUV0JFvAsZE53w/./7i.G/o7nHS7b4LMMaa9vObMlytyEQm', 'resident', 'active'),
 ('resident2', 'resident2@example.com', '$2y$10$wH8YxLq6U7ZQnN9V4Jc8nOZq1YxY9WQFJQX1rJwFJQxY9Y0pYFZ6', 'resident', 'pending'),
 ('resident3', 'resident3@example.com', '$2y$10$wH8YxLq6U7ZQnN9V4Jc8nOZq1YxY9WQFJQX1rJwFJQxY9Y0pYFZ6', 'resident', 'disabled');
 
