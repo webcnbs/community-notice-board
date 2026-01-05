@@ -41,7 +41,6 @@ if ($role === 'admin') {
   <title>Manage Categories</title>
   <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/MDstyle.css">
-
 </head>
 
 <body class="MDbody">
