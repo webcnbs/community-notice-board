@@ -15,10 +15,11 @@ $bookmarks = $bookmarkModel->list($_SESSION['user']['user_id']);
 <!DOCTYPE html>
 <html>
 <head>
+  
   <meta charset="UTF-8">
   <title>My Bookmarks</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
-</head>
+    <link rel="stylesheet" href="assets/css/Nstyle.css">
+
 <body>
   <h2>My Bookmarks</h2>
 
