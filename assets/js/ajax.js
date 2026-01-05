@@ -41,40 +41,18 @@ async function fetchNotices(params = {}) {
         if (!list) return;
         list.innerHTML = '';
 
-        // FIX: Access the 'notices' array inside the json object
-        const notices = json.notices || [];
-        const total = json.total || 0;
-
-        // Update the Counter UI
-        const meta = document.getElementById('results-meta');
-        const countSpan = document.getElementById('results-count');
-        if (meta && countSpan) {
-            // Show the counter only if a search or filter is actually being used
-            const isFiltered = params.q || params.category_id || params.priority;
-            meta.style.display = isFiltered ? 'block' : 'none';
-            countSpan.textContent = total;
-        }
-
-        if (notices.length === 0) {
+        if (json.length === 0) {
             list.innerHTML = '<p class="text-muted">No notices found.</p>';
             return;
         }
 
-        // FIX: Loop through 'notices' instead of 'json'
-        notices.forEach(n => {
-            // Logic to highlight the search term
-            let displayTitle = n.title;
-            if (params.q) {
-                const regex = new RegExp(`(${params.q})`, 'gi');
-                displayTitle = n.title.replace(regex, '<mark>$1</mark>');
-            }
-
+        json.forEach(n => {
             const li = document.createElement('li');
-            li.className = 'notice-item'; 
+            li.className = 'notice-item'; // Added for CSS styling
             li.innerHTML = `
                 <div class="notice-card">
                     <a href="view-notice.php?id=${n.notice_id}" class="notice-title">
-                        <strong>${displayTitle}</strong>
+                        <strong>${n.title}</strong>
                     </a>
                     <br>
                     <small class="notice-meta">
@@ -86,11 +64,6 @@ async function fetchNotices(params = {}) {
             `;
             list.appendChild(li);
         });
-
-        // Optional: Shows a success toast with the total count
-        if (params.q) {
-            toast(`Found ${total} result(s)`, 'success');
-        }
     } catch (err) {
         console.error("Fetch Notices Error:", err);
         toast('Failed to load notices', 'error');
@@ -127,48 +100,22 @@ async function loadComments(noticeId) {
 /**
  * Event Listeners: Filtering and Comment Submission
  */
-/**
- * Event Listeners: Filtering and Comment Submission
- */
 document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.getElementById('filter-go');
-    const clearBtn = document.getElementById('filter-clear'); // Get the new Clear button
     
-    // 1. Wire up "Apply" button
-    // 1. Wire up "Apply" button
+    // Wire up filter button on home page
     if (filterBtn) {
-    // Add 'e' here to capture the click event
-    filterBtn.addEventListener('click', (e) => {
-        // PREVENT PAGE REFRESH: This is the critical line
-        e.preventDefault(); 
-
-        fetchNotices({
-            category_id: document.getElementById('filter-category').value,
-            priority: document.getElementById('filter-priority').value,
-            q: document.getElementById('filter-q').value
+        filterBtn.addEventListener('click', () => {
+            fetchNotices({
+                category_id: document.getElementById('filter-category').value,
+                priority: document.getElementById('filter-priority').value,
+                q: document.getElementById('filter-q').value
+            });
         });
-    });
-}
 
-    // 2. Wire up "Clear" button (The "something" to add)
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            // Reset all input fields
-            document.getElementById('filter-category').value = '';
-            document.getElementById('filter-priority').value = '';
-            document.getElementById('filter-q').value = '';
-            
-            // Hide the counter metadata
-            const meta = document.getElementById('results-meta');
-            if (meta) meta.style.display = 'none';
-
-            // Fetch the original full list
-            fetchNotices({});
-        });
+        // Initial load of notices
+        fetchNotices();
     }
-
-    // Initial load of notices
-    fetchNotices();
 });
 
 // Global click listener for comment sending
