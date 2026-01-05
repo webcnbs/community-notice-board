@@ -11,57 +11,67 @@ require_role(['resident','manager','admin']);
 
 $bookmarkModel = new Bookmark();
 $bookmarks = $bookmarkModel->list($_SESSION['user']['user_id']);
+
+$role = $_SESSION['user']['role'] ?? '';
+$dashboardUrl = ($role === 'admin') ? '../admin/dashboard.php' : (($role === 'manager') ? '../index2.php' : '../index.php');
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  
-  <meta charset="UTF-8">
-  <title>My Bookmarks</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+    <meta charset="UTF-8">
+    <title>My Bookmarks</title>
+    <link rel="stylesheet" href="../assets/css/MDstyle.css">
+</head>
+<body class="MDbody">
 
-<body>
-  <h2>My Bookmarks</h2>
+    <header class="MDheader">
+        <h1>Saved Bookmarks</h1>
+        <nav class="MDnav">
+            <a href="<?= $dashboardUrl; ?>" class="MDbtn">← Dashboard</a>
+        </nav>
+    </header>
 
-  <!-- ✅ Feedback messages -->
-  <?php if (isset($_GET['added'])): ?>
-    <p class="success">Notice bookmarked successfully!</p>
-  <?php endif; ?>
-  <?php if (isset($_GET['removed'])): ?>
-    <p class="success">Bookmark removed successfully!</p>
-  <?php endif; ?>
+    <main>
+        <h2 class="MDh2">Your Saved Notices</h2>
+        <p class="MDinfo">Access your bookmarked community updates below.</p>
 
-  <?php if (empty($bookmarks)): ?>
-    <p class="info">You haven't bookmarked any notices yet.</p>
-  <?php else: ?>
-    <ul>
-      <?php foreach ($bookmarks as $b): ?>
-        <li>
-          <a href="../view-notice.php?id=<?php echo $b['notice_id']; ?>">
-            <?php echo htmlspecialchars($b['title']); ?>
-          </a>
-          <small><?php echo $b['created_at']; ?></small>
-          <form method="post" action="../api/bookmarks.php" style="display:inline;">
-            <input type="hidden" name="notice_id" value="<?php echo $b['notice_id']; ?>">
-            <button type="submit" name="action" value="remove" class="danger">Remove</button>
-          </form>
-        </li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
+        <?php if (isset($_GET['removed'])): ?>
+            <p class="MDinfo" style="color: #b23a48; font-weight: bold;">🗑️ Bookmark removed successfully.</p>
+        <?php endif; ?>
 
-<?php
-$role = $_SESSION['user']['role'] ?? '';
-if ($role === 'admin') {
-    $dashboardUrl = '../admin/dashboard.php'; // ✅ corrected path
-} elseif ($role === 'manager') {
-    $dashboardUrl = '../index2.php';
-} else {
-    $dashboardUrl = '../index.php';
-}
-?>
-<p class="mt-2">
-  <a href="<?php echo $dashboardUrl; ?>" class="btn secondary">← Back </a>
-</p>
+        <div class="MDdashboard-grid">
+            <?php if (empty($bookmarks)): ?>
+                <p class="MDinfo">You haven't bookmarked any notices yet.</p>
+            <?php else: ?>
+                <?php foreach ($bookmarks as $b): ?>
+                    <div class="MDbtn" style="flex-direction: column; align-items: flex-start; text-align: left; height: auto;">
+                        <span class="icon">🔖</span>
+                        <div style="margin-top: 10px;">
+                            <a href="../view-notice.php?id=<?= $b['notice_id']; ?>" style="color: white; text-decoration: none; font-size: 1.2rem; display: block;">
+                                <?= htmlspecialchars($b['title']); ?>
+                            </a>
+                            <small style="opacity: 0.8; font-size: 0.8rem;">
+                                Saved: <?= date('M d, Y', strtotime($b['created_at'])); ?>
+                            </small>
+                        </div>
+
+                        <form method="post" action="../api/bookmarks.php" style="width: 100%; margin-top: 15px;">
+                            <input type="hidden" name="notice_id" value="<?= $b['notice_id']; ?>">
+                            <button type="submit" name="action" value="remove" class="MDbtn danger" 
+                                    style="padding: 0.5rem; width: 100%; font-size: 0.9rem;"
+                                    onclick="return confirm('Remove this bookmark?')">
+                                Remove Bookmark
+                            </button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </main>
+
+    <footer class="MDfooter">
+        &copy; <?= date('Y'); ?> Community Notice Board
+    </footer>
+
 </body>
 </html>
