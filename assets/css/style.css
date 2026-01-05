@@ -185,8 +185,8 @@ button.danger { background: var(--danger); }
 
 .login-card {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px) !important; /* ✅ now correctly inside */
   -webkit-backdrop-filter: blur(12px) !important; /* Safari support */
+  backdrop-filter: blur(12px) !important; /* ✅ now correctly inside */
   border-radius: 12px;
   padding: 2rem;
   max-width: 400px;
@@ -264,8 +264,8 @@ button.danger { background: var(--danger); }
   justify-content: space-between;
   padding: 1rem 1.25rem !important;
   background: #f7f1f61a !important; /* semi-transparent background */
-  backdrop-filter: blur(10px) !important; /* ✅ now correctly inside */
   -webkit-backdrop-filter: blur(10px) !important; /* Safari support */
+  backdrop-filter: blur(10px) !important; /* ✅ now correctly inside */
   border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
   color: #fff !important;
 }
