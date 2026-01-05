@@ -35,22 +35,20 @@
   color: #000000;
 }
 
-
 /* Logo styling */
 .MDlogo {
-  height: 60px;              /* keeps logo consistent in header */
-  width: auto;               /* maintains aspect ratio */
-  vertical-align: middle;    /* aligns nicely with text */
-  border-radius: 6px;        /* optional: rounded corners */
-  transition: transform 0.3s ease, opacity 0.3s ease; /* smooth hover effect */
+  height: 60px;
+  width: auto;
+  vertical-align: middle;
+  border-radius: 6px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   text-decoration: none;
 }
 
-/* Hover effect for logo */
 .MDlogo:hover {
-  transform: scale(1.05);    /* subtle zoom */
-  opacity: 0.9;              /* slight fade */
-  cursor: pointer;           /* indicates interactivity */
+  transform: scale(1.05);
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 /* Navigation */
@@ -86,6 +84,7 @@
   font-weight: 600;
   color: #222;
 }
+
 .MDinfo {
   margin: 0 2rem;
   color: #555;
@@ -99,6 +98,7 @@
   margin: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
+
 .MDbtn {
   display: flex;
   align-items: center;
@@ -114,11 +114,13 @@
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
 .MDbtn:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   background: #0056b3;
 }
+
 .MDbtn.danger {
   background: #dc3545;
 }
@@ -128,6 +130,7 @@
   font-size: 1.4rem;
   transition: transform 0.3s ease;
 }
+
 .MDbtn:hover span.icon {
   transform: rotate(10deg) scale(1.2);
 }
@@ -142,50 +145,63 @@
   margin-top: 2rem;
 }
 
-/* Dark mode base */
+/* ===================== DARK MODE ===================== */
 .MDbody.dark-mode {
-  background: #121212;
+  background: #37353E;
   color: #e0e0e0;
 }
 
-/* .MDh2.dark-mode {
-  margin: 2rem;
-  font-weight: 600;
-  color: #fff;
-} */
-
-/* Dark mode header */
+/* Header */
 .MDbody.dark-mode .MDheader {
   background: linear-gradient(90deg, #1f1f1f, #2a2a2a) !important;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
+/* Navigation buttons */
 .MDbody.dark-mode .MDnav .MDbtn {
   background: rgba(255,255,255,0.1);
   color: #e0e0e0;
   border: 1px solid rgba(255,255,255,0.2);
 }
+
 .MDbody.dark-mode .MDnav .MDbtn:hover {
   background: rgba(255,255,255,0.2);
 }
 
-/* Dark mode buttons */
+/* Dashboard buttons */
 .MDbody.dark-mode .MDbtn {
-  background: #333 !important;
+  background: #a02d6f !important;
   color: #e0e0e0;
-  box-shadow: 0 6px 15px rgba(255,255,255,0.1);
-}
-.MDbody.dark-mode .MDbtn:hover {
-  background: #555 !important;
-  box-shadow: 0 10px 20px rgba(255,255,255,0.15);
-}
-.MDbody.dark-mode .MDbtn.danger {
-  background: #3a6ab2 !important;
+  box-shadow: 0 6px 15px #B13BFF;
 }
 
-/* Dark mode footer */
+.MDbody.dark-mode .MDbtn:hover {
+  background: #d19cf4 !important;
+  box-shadow: 0 10px 20px #e0e0e0;
+  color: #414040;
+}
+
+.MDbody.dark-mode .MDbtn.danger {
+  background: #a83232 !important; /* dark red for danger */
+}
+
+/* Headings & info */
+.MDbody.dark-mode .MDh2 {
+  color: #ffffff;
+}
+
+.MDbody.dark-mode .MDinfo {
+  color: #cccccc;
+}
+
+/* Links */
+.MDbody.dark-mode .a {
+  color: #e0e0e0;
+}
+
+/* Footer */
 .MDbody.dark-mode .MDfooter {
   background: #1f1f1f;
-  color: #aaa;
+  color: #bbb;
 }

@@ -30,16 +30,20 @@ header {
   padding: 1rem 1.25rem;
   background: var(--card);
   border-bottom: 1px solid var(--border);
+  border-radius: 10px;
 }
 header h1 { margin: 0; font-size: 1.25rem; }
-nav a { margin-left: 0.75rem; text-decoration: none; color: var(--primary); }
+nav a { margin-left: 0.75rem;
+margin-right: 0.75rem;
+text-decoration: none; color: var(--primary); }
 nav a:hover { text-decoration: underline; }
 
 
 .container {
   max-width: 980px;
   margin: 1.25rem auto;
-  padding: 0 1rem;
+  padding: 1rem 1rem;
+  border-radius: 2%;
 }
 
 .card {
@@ -429,3 +433,7 @@ form {
   opacity: 0.9;              /* slight fade */
   cursor: pointer;           /* indicates interactivity */
 }
+
+
+
+
