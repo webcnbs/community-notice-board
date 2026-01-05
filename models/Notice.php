@@ -76,11 +76,10 @@ class Notice {
             $params[':priority'] = $filters['priority'];
         }
 
-        if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
-            $where[] = '(n.title LIKE :q OR n.content LIKE :q)';
-            $params[':q'] = $filters['q'] . '%';
+        if (!empty($filters['q']) && strlen($filters['q']) >= 1) {
+            $where[] = 'n.title LIKE :q1'; 
+            $params[':q1'] = '%' . $filters['q'] . '%'; // Added % at start too for better search
         }
-
         if (!empty($filters['active_only'])) {
             $where[] = '(n.expiry_date IS NULL OR n.expiry_date >= CURDATE())';
         }
@@ -111,40 +110,40 @@ class Notice {
 
     // ✅ Count notices matching filters
     public function count(array $filters) {
-        $where = []; 
-        $params = [];
+    $where = []; 
+    $params = [];
 
-        if (!empty($filters['category_id'])) {
-            $where[] = 'category_id = :category_id';
-            $params[':category_id'] = (int)$filters['category_id'];
-        }
-
-        if (!empty($filters['priority'])) {
-            $where[] = 'priority = :priority';
-            $params[':priority'] = $filters['priority'];
-        }
-
-        if (!empty($filters['q']) && strlen($filters['q']) >= 3) {
-            $where[] = '(title LIKE :q OR content LIKE :q)';
-            $params[':q'] = $filters['q'] . '%';
-        }
-
-        if (!empty($filters['active_only'])) {
-            $where[] = '(expiry_date IS NULL OR expiry_date >= CURDATE())';
-        }
-
-        $sql = "SELECT COUNT(*) FROM notices";
-        if ($where) {
-            $sql .= " WHERE " . implode(' AND ', $where);
-        }
-
-        $stmt = $this->pdo->prepare($sql);
-        foreach ($params as $key => $val) {
-            $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
-        }
-        $stmt->execute();
-        return (int)$stmt->fetchColumn();
+    if (!empty($filters['category_id'])) {
+        $where[] = 'category_id = :category_id';
+        $params[':category_id'] = (int)$filters['category_id'];
     }
+
+    if (!empty($filters['priority'])) {
+        $where[] = 'priority = :priority';
+        $params[':priority'] = $filters['priority'];
+    }
+
+    if (!empty($filters['q']) && strlen($filters['q']) >= 1) {
+        $where[] = 'title LIKE :q1'; 
+        $params[':q1'] = '%' . $filters['q'] . '%';
+    }
+
+    if (!empty($filters['active_only'])) {
+        $where[] = '(expiry_date IS NULL OR expiry_date >= CURDATE())';
+    }
+
+    $sql = "SELECT COUNT(*) FROM notices"; 
+    if ($where) {
+        $sql .= " WHERE " . implode(' AND ', $where);
+    }
+
+    $stmt = $this->pdo->prepare($sql);
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    return (int)$stmt->fetchColumn();
+}
 
     // ✅ Increment view count
     public function incrementViews(int $id) {
