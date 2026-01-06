@@ -9,7 +9,7 @@ session_start();
 
 require_role(['resident','manager','admin']);
 
-// ✅ FIX: Use getInstance()->pdo() to solve the Fatal Error
+// FIX: Use getInstance()->pdo() to solve the Fatal Error
 $db = Database::getInstance()->pdo(); 
 
 $role = $_SESSION['user']['role'] ?? '';

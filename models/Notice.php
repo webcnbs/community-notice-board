@@ -10,7 +10,7 @@ class Notice {
         $this->pdo = Database::getInstance()->pdo();
     }
 
-    // ✅ Create a new notice
+    //  Create a new notice
     public function create(array $data) {
         $stmt = $this->pdo->prepare("
             INSERT INTO notices (title, content, category_id, priority, user_id, expiry_date)
@@ -20,7 +20,7 @@ class Notice {
         return $this->pdo->lastInsertId();
     }
 
-    // ✅ Update an existing notice
+    //  Update an existing notice
     public function update(int $id, array $data) {
         $stmt = $this->pdo->prepare("
             UPDATE notices 
@@ -32,7 +32,7 @@ class Notice {
         $stmt->execute($data);
     }
 
-    // ✅ Delete a notice and its related data
+    //  Delete a notice and its related data
     public function delete(int $id) {
         // Delete related bookmarks
         $this->pdo->prepare("DELETE FROM bookmarks WHERE notice_id = ?")->execute([$id]);
@@ -49,7 +49,7 @@ class Notice {
         $log->record($userId, 'delete_notice', "Deleted notice ID $id");
     }
 
-    // ✅ Find a single notice by ID
+    //  Find a single notice by ID
     public function find(int $id) {
         $stmt = $this->pdo->prepare("
             SELECT n.*, c.name AS category_name 
@@ -61,7 +61,7 @@ class Notice {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // ✅ List notices with filters, pagination, and search
+    // List notices with filters, pagination, and search
     public function list(array $filters, int $limit = 10, int $offset = 0) {
         $where = []; 
         $params = [];
@@ -108,7 +108,7 @@ class Notice {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ✅ Count notices matching filters
+    //  Count notices matching filters
     public function count(array $filters) {
     $where = []; 
     $params = [];
@@ -145,12 +145,12 @@ class Notice {
     return (int)$stmt->fetchColumn();
 }
 
-    // ✅ Increment view count
+    // Increment view count
     public function incrementViews(int $id) {
         $this->pdo->prepare("UPDATE notices SET views = views + 1 WHERE notice_id=?")->execute([$id]);
     }
 
-    // ✅ Fetch all notices (for admin dashboard or manage-notices.php)
+    //  Fetch all notices (for admin dashboard or manage-notices.php)
     public function all() {
         $stmt = $this->pdo->query("
             SELECT n.*, c.name AS category_name, u.username AS created_by 

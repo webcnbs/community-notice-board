@@ -9,14 +9,14 @@ class User {
         $this->pdo = Database::getInstance()->pdo();
     }
 
-    // ✅ Find user by email (used in login)
+    // Find user by email (used in login)
     public function findByEmail(string $email) {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // ✅ Check if email already exists (used in registration)
+    // Check if email already exists (used in registration)
     public function exists(string $email): bool {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
         $stmt->execute([$email]);
@@ -24,14 +24,14 @@ class User {
     }
 
 
-// ✅ Check if username already exists (used in registration)
+//  Check if username already exists (used in registration)
     public function usernameExists(string $username): bool {
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
         $stmt->execute([$username]);
         return $stmt->fetchColumn() > 0;
     }
 
-    // ✅ Create a new user (used in registration)
+    //  Create a new user (used in registration)
     public function create(string $username, string $email, string $password) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -49,30 +49,30 @@ class User {
         // $stmt->execute([$username, $email, $hash]);
     }
 
-    // ✅ Fetch all users (used in manage-users.php)
+    //  Fetch all users (used in manage-users.php)
     public function all() {
         $stmt = $this->pdo->query("SELECT * FROM users ORDER BY user_id ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ✅ Update user status (approve/disable)
+    //  Update user status (approve/disable)
     public function updateStatus(int $userId, string $status) {
         $stmt = $this->pdo->prepare("UPDATE users SET status = ? WHERE user_id = ?");
         $stmt->execute([$status, $userId]);
     }
 
-    // ✅ Update user role (admin panel)
+    //  Update user role (admin panel)
     public function updateRole(int $userId, string $role) {
         $stmt = $this->pdo->prepare("UPDATE users SET role = ? WHERE user_id = ?");
         $stmt->execute([$role, $userId]);
     }
 
-    // ✅ Approve user (helper for AdminController)
+    // Approve user (helper for AdminController)
     public function approve(int $userId) {
         $this->updateStatus($userId, 'active');
     }
 
-    // ✅ Disable user (helper for AdminController)
+    // Disable user (helper for AdminController)
     public function disable(int $userId) {
         $this->updateStatus($userId, 'disabled');
     }

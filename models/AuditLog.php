@@ -9,7 +9,7 @@ class AuditLog {
         $this->pdo = Database::getInstance()->pdo(); 
     }
 
-    // ✅ Record a new audit log entry
+    //  Record a new audit log entry
     public function record(?int $userId, string $action, string $details = '') {
         $stmt = $this->pdo->prepare(
             "INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, ?, ?, ?)"
@@ -22,7 +22,7 @@ class AuditLog {
         ]);
     }
 
-    // ✅ Fetch logs with a limit (default 50)
+    //  Fetch logs with a limit (default 50)
     public function list(int $limit = 50) {
         $stmt = $this->pdo->prepare("
             SELECT l.*, u.username 
@@ -36,7 +36,7 @@ class AuditLog {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ✅ Alias for dashboard compatibility
+    // Alias for dashboard compatibility
     public function recent(int $limit = 10) {
         return $this->list($limit);
     }
